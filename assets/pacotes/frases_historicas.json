@@ -1,0 +1,191 @@
+{
+  "id": "frases_historicas",
+  "nome": "Frases Históricas",
+  "descricao": "Ditas por gente que mudou o mundo — ou pelo menos levou a fama.",
+  "faixa_etaria": "12+",
+  "gratuito": true,
+  "versao": 1,
+  "quantidade_perguntas": 30,
+  "perguntas": [
+    {
+      "id": "q001",
+      "frase": "Independência ou Morte!",
+      "resposta": "Dom Pedro I",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q002",
+      "frase": "Penso, logo existo.",
+      "resposta": "René Descartes",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q003",
+      "frase": "Um pequeno passo para o homem, um salto gigantesco para a humanidade.",
+      "resposta": "Neil Armstrong",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q004",
+      "frase": "Eu tenho um sonho.",
+      "resposta": "Martin Luther King Jr.",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q005",
+      "frase": "E, no entanto, ela se move.",
+      "resposta": "Galileu Galilei (atribuída)",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q006",
+      "frase": "Vim, vi, venci.",
+      "resposta": "Júlio César",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q007",
+      "frase": "Deus não joga dados.",
+      "resposta": "Albert Einstein",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q008",
+      "frase": "Só sei que nada sei.",
+      "resposta": "Sócrates",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q009",
+      "frase": "Que comam brioches.",
+      "resposta": "Maria Antonieta (atribuída)",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q010",
+      "frase": "Depois de mim, o dilúvio.",
+      "resposta": "Luís XV",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q011",
+      "frase": "O Estado sou eu.",
+      "resposta": "Luís XIV",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q012",
+      "frase": "A religião é o ópio do povo.",
+      "resposta": "Karl Marx",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q013",
+      "frase": "Deus está morto.",
+      "resposta": "Friedrich Nietzsche",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q014",
+      "frase": "Não pergunte o que seu país pode fazer por você; pergunte o que você pode fazer pelo seu país.",
+      "resposta": "John F. Kennedy",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q015",
+      "frase": "Não tenho nada a oferecer além de sangue, esforço, lágrimas e suor.",
+      "resposta": "Winston Churchill",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q016",
+      "frase": "Um espectro ronda a Europa.",
+      "resposta": "Karl Marx e Friedrich Engels — Manifesto Comunista",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q017",
+      "frase": "Ser ou não ser, eis a questão.",
+      "resposta": "Hamlet — William Shakespeare",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q018",
+      "frase": "Todos os animais são iguais, mas alguns são mais iguais que outros.",
+      "resposta": "A Revolução dos Bichos — George Orwell",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q019",
+      "frase": "A única coisa que devemos temer é o próprio medo.",
+      "resposta": "Franklin D. Roosevelt",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q020",
+      "frase": "Liberdade, Igualdade, Fraternidade.",
+      "resposta": "Lema da Revolução Francesa",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q021",
+      "frase": "A sorte está lançada.",
+      "resposta": "Júlio César",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q022",
+      "frase": "Não tenho nada a declarar, exceto o meu gênio.",
+      "resposta": "Oscar Wilde",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q023",
+      "frase": "Se eu vi mais longe, foi por estar sobre ombros de gigantes.",
+      "resposta": "Isaac Newton",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q024",
+      "frase": "A imaginação é mais importante que o conhecimento.",
+      "resposta": "Albert Einstein",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q025",
+      "frase": "A guerra é a continuação da política por outros meios.",
+      "resposta": "Carl von Clausewitz",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q026",
+      "frase": "Defenderei até a morte o seu direito de dizer o que pensa.",
+      "resposta": "Voltaire (atribuída)",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q027",
+      "frase": "Não há caminho para a paz, a paz é o caminho.",
+      "resposta": "Mahatma Gandhi (atribuída)",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q028",
+      "frase": "O que não me mata me fortalece.",
+      "resposta": "Friedrich Nietzsche",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q029",
+      "frase": "Mais luz!",
+      "resposta": "Últimas palavras de Goethe",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q030",
+      "frase": "Eu sou o mestre do meu destino, o capitão da minha alma.",
+      "resposta": "William Ernest Henley — poema Invictus",
+      "dificuldade": "dificil"
+    }
+  ]
+}

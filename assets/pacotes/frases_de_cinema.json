@@ -1,0 +1,191 @@
+{
+  "id": "frases_de_cinema",
+  "nome": "Frases de Cinema",
+  "descricao": "Falas que todo mundo já repetiu sem lembrar de qual filme saíram.",
+  "faixa_etaria": "livre",
+  "gratuito": true,
+  "versao": 1,
+  "quantidade_perguntas": 30,
+  "perguntas": [
+    {
+      "id": "q001",
+      "frase": "Que a Força esteja com você.",
+      "resposta": "Star Wars",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q002",
+      "frase": "Vou fazer uma oferta que ele não pode recusar.",
+      "resposta": "Vito Corleone — O Poderoso Chefão",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q003",
+      "frase": "Luke, eu sou seu pai.",
+      "resposta": "Darth Vader — O Império Contra-Ataca",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q004",
+      "frase": "A vida é como uma caixa de chocolates: você nunca sabe o que vai encontrar.",
+      "resposta": "Forrest Gump",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q005",
+      "frase": "Eu vejo gente morta.",
+      "resposta": "O Sexto Sentido",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q006",
+      "frase": "Toto, acho que não estamos mais no Kansas.",
+      "resposta": "Dorothy — O Mágico de Oz",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q007",
+      "frase": "Você não pode com a verdade!",
+      "resposta": "Questão de Honra",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q008",
+      "frase": "Hasta la vista, baby.",
+      "resposta": "O Exterminador do Futuro 2",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q009",
+      "frase": "Houston, temos um problema.",
+      "resposta": "Apollo 13",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q010",
+      "frase": "Meu precioso.",
+      "resposta": "Gollum — O Senhor dos Anéis",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q011",
+      "frase": "Você não vai passar!",
+      "resposta": "Gandalf — O Senhor dos Anéis: A Sociedade do Anel",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q012",
+      "frase": "Eu sou o rei do mundo!",
+      "resposta": "Jack — Titanic",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q013",
+      "frase": "Ninguém põe a Baby num canto.",
+      "resposta": "Dirty Dancing — Ritmo Quente",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q014",
+      "frase": "Vamos precisar de um barco maior.",
+      "resposta": "Tubarão",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q015",
+      "frase": "Adoro o cheiro de napalm pela manhã.",
+      "resposta": "Apocalypse Now",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q016",
+      "frase": "Corre, Forrest, corre!",
+      "resposta": "Forrest Gump",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q017",
+      "frase": "Diga oi para o meu amiguinho!",
+      "resposta": "Tony Montana — Scarface",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q018",
+      "frase": "E.T. telefone, minha casa.",
+      "resposta": "E.T. — O Extraterrestre",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q019",
+      "frase": "Acho que este é o começo de uma bela amizade.",
+      "resposta": "Casablanca",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q020",
+      "frase": "Eu voltarei.",
+      "resposta": "O Exterminador do Futuro",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q021",
+      "frase": "A vida encontra um caminho.",
+      "resposta": "Ian Malcolm — Jurassic Park",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q022",
+      "frase": "Está falando comigo?",
+      "resposta": "Travis Bickle — Taxi Driver",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q023",
+      "frase": "Loucura? Isto é Esparta!",
+      "resposta": "Leônidas — 300",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q024",
+      "frase": "Com grandes poderes vêm grandes responsabilidades.",
+      "resposta": "Tio Ben — Homem-Aranha",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q025",
+      "frase": "Vingadores, avante!",
+      "resposta": "Capitão América — Vingadores: Ultimato",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q026",
+      "frase": "Eu sou inevitável.",
+      "resposta": "Thanos — Vingadores: Ultimato",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q027",
+      "frase": "Bond. James Bond.",
+      "resposta": "James Bond — 007",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q028",
+      "frase": "Que os Jogos Vorazes comecem, e que a sorte esteja sempre a seu favor.",
+      "resposta": "Jogos Vorazes",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q029",
+      "frase": "A primeira regra do Clube da Luta é: não fale sobre o Clube da Luta.",
+      "resposta": "Tyler Durden — Clube da Luta",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q030",
+      "frase": "Você toma a pílula azul, a história acaba.",
+      "resposta": "Morpheus — Matrix",
+      "dificuldade": "media"
+    }
+  ]
+}

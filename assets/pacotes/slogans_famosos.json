@@ -1,0 +1,209 @@
+{
+  "id": "slogans_famosos",
+  "nome": "Slogans Famosos",
+  "descricao": "Você repete sem pensar. Agora diz de qual marca é.",
+  "faixa_etaria": "livre",
+  "gratuito": true,
+  "versao": 1,
+  "quantidade_perguntas": 33,
+  "perguntas": [
+    {
+      "id": "q001",
+      "frase": "Não é assim uma Brastemp.",
+      "resposta": "Brastemp",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q002",
+      "frase": "Mil e uma utilidades.",
+      "resposta": "Bombril",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q003",
+      "frase": "Amo muito tudo isso.",
+      "resposta": "McDonald's",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q004",
+      "frase": "Just do it.",
+      "resposta": "Nike",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q005",
+      "frase": "Abra a felicidade.",
+      "resposta": "Coca-Cola",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q006",
+      "frase": "Dedicação total a você.",
+      "resposta": "Casas Bahia",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q007",
+      "frase": "Pergunta lá no posto.",
+      "resposta": "Posto Ipiranga",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q008",
+      "frase": "A cerveja que desce redondo.",
+      "resposta": "Skol",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q009",
+      "frase": "Te dá asas.",
+      "resposta": "Red Bull",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q010",
+      "frase": "Não deformam, não soltam as tiras e não têm cheiro.",
+      "resposta": "Havaianas",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q011",
+      "frase": "Tem coisas que o dinheiro não compra. Para todas as outras, existe.",
+      "resposta": "Mastercard",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q012",
+      "frase": "Energia que dá gosto.",
+      "resposta": "Nescau",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q013",
+      "frase": "Abuse e use.",
+      "resposta": "C&A",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q014",
+      "frase": "Tomou, a dor sumiu.",
+      "resposta": "Doril",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q015",
+      "frase": "Se é, é bom.",
+      "resposta": "Bayer",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q016",
+      "frase": "Vem pra você também.",
+      "resposta": "Caixa Econômica Federal",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q017",
+      "frase": "Faz um 21.",
+      "resposta": "Embratel",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q018",
+      "frase": "Não te abandona.",
+      "resposta": "Rexona",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q019",
+      "frase": "Think different.",
+      "resposta": "Apple",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q020",
+      "frase": "Porque você vale muito.",
+      "resposta": "L'Oréal",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q021",
+      "frase": "Conectando pessoas.",
+      "resposta": "Nokia",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q022",
+      "frase": "Feito pra você.",
+      "resposta": "Itaú",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q023",
+      "frase": "Você conhece, você confia.",
+      "resposta": "Volkswagen",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q024",
+      "frase": "Impossible is nothing.",
+      "resposta": "Adidas",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q025",
+      "frase": "Vem pra rua.",
+      "resposta": "Fiat",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q026",
+      "frase": "Vale por um bifinho.",
+      "resposta": "Danoninho",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q027",
+      "frase": "A gente se vê por aqui.",
+      "resposta": "Rede Globo",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q028",
+      "frase": "Dura mais. Muito mais.",
+      "resposta": "Duracell",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q029",
+      "frase": "Melhoral, melhoral, é melhor e não faz mal.",
+      "resposta": "Melhoral",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q030",
+      "frase": "Não esqueça a minha bicicleta.",
+      "resposta": "Caloi",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q031",
+      "frase": "Mamíferos.",
+      "resposta": "Parmalat",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q032",
+      "frase": "Faz bem.",
+      "resposta": "Nestlé",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q033",
+      "frase": "O coelhinho que não para.",
+      "resposta": "Energizer",
+      "dificuldade": "dificil"
+    }
+  ]
+}

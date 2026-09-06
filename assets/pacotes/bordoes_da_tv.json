@@ -1,0 +1,173 @@
+{
+  "id": "bordoes_da_tv",
+  "nome": "Bordões da TV",
+  "descricao": "Frases que atravessaram gerações na sala da sua casa.",
+  "faixa_etaria": "livre",
+  "gratuito": true,
+  "versao": 1,
+  "quantidade_perguntas": 27,
+  "perguntas": [
+    {
+      "id": "q001",
+      "frase": "Foi sem querer querendo.",
+      "resposta": "Chaves",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q002",
+      "frase": "Ninguém tem paciência comigo.",
+      "resposta": "Chaves",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q003",
+      "frase": "Isso, isso, isso!",
+      "resposta": "Chaves",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q004",
+      "frase": "Não contavam com a minha astúcia!",
+      "resposta": "Chapolin Colorado",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q005",
+      "frase": "Sigam-me os bons!",
+      "resposta": "Chapolin Colorado",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q006",
+      "frase": "Que ninguém entre em pânico!",
+      "resposta": "Chapolin Colorado",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q007",
+      "frase": "Cale-se, cale-se, cale-se! Você me deixa louco!",
+      "resposta": "Quico, de Chaves",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q008",
+      "frase": "A vingança nunca é plena, mata a alma e a envenena.",
+      "resposta": "Seu Madruga, de Chaves",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q009",
+      "frase": "Vamos, Quico! Não se misture com essa gentalha.",
+      "resposta": "Dona Florinda, de Chaves",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q010",
+      "frase": "Tesouro!",
+      "resposta": "Dona Florinda, de Chaves",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q011",
+      "frase": "Que a paz reine nesta casa.",
+      "resposta": "Professor Girafales, de Chaves",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q012",
+      "frase": "Quem não se comunica se trumbica.",
+      "resposta": "Chacrinha",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q013",
+      "frase": "Vocês querem bacalhau?",
+      "resposta": "Chacrinha",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q014",
+      "frase": "Eu vim para confundir, não para explicar.",
+      "resposta": "Chacrinha",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q015",
+      "frase": "Terezinha!",
+      "resposta": "Chacrinha",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q016",
+      "frase": "Haja coração!",
+      "resposta": "Galvão Bueno",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q017",
+      "frase": "É tetra!",
+      "resposta": "Galvão Bueno",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q018",
+      "frase": "Bem, amigos da Rede Globo, boa noite!",
+      "resposta": "Galvão Bueno",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q019",
+      "frase": "Olho no lance!",
+      "resposta": "Silvio Luiz",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q020",
+      "frase": "Quem quer dinheiro?",
+      "resposta": "Silvio Santos",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q021",
+      "frase": "Ê, loco, meu!",
+      "resposta": "Faustão",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q022",
+      "frase": "Tô certo ou tô errado?",
+      "resposta": "Ratinho",
+      "dificuldade": "media"
+    },
+    {
+      "id": "q023",
+      "frase": "Baixinhos!",
+      "resposta": "Xuxa",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q024",
+      "frase": "Cala a boca, Magda!",
+      "resposta": "Vavá, de Sai de Baixo",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q025",
+      "frase": "Cacildis!",
+      "resposta": "Mussum, dos Trapalhões",
+      "dificuldade": "facil"
+    },
+    {
+      "id": "q026",
+      "frase": "Forévis!",
+      "resposta": "Mussum, dos Trapalhões",
+      "dificuldade": "dificil"
+    },
+    {
+      "id": "q027",
+      "frase": "Presente, professor!",
+      "resposta": "Escolinha do Professor Raimundo",
+      "dificuldade": "media"
+    }
+  ]
+}
