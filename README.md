@@ -22,6 +22,7 @@ flutter run       # aparelho, emulador ou -d chrome
 |---|---|
 | [`docs/manutencao.md`](docs/manutencao.md) | Como mexer no código: arquitetura, tarefas comuns, build e publicação |
 | [`docs/conteudo.md`](docs/conteudo.md) | Como escrever e publicar pacotes de perguntas |
+| [`docs/plano-telas.md`](docs/plano-telas.md) | O que falta aplicar do design, tela a tela |
 | [`docs/decisoes.md`](docs/decisoes.md) | Por que o jogo é assim, e o que mudou desde a especificação |
 | [`quem-disse-isso-regras-e-arquitetura.md`](quem-disse-isso-regras-e-arquitetura.md) | Especificação original do produto (ver divergências em `decisoes.md`) |
 

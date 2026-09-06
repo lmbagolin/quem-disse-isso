@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/tema.dart';
+import '../widgets/tubo.dart';
 import '../../dominio/modelos/config_partida.dart';
 import '../../dominio/modelos/dificuldade.dart';
 import '../canal.dart';
@@ -122,8 +123,9 @@ class _SetupTelaState extends State<SetupTela> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text('Nova partida')),
-      body: SafeArea(
+      body: Tubo(child: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
           children: [
@@ -302,7 +304,7 @@ class _SetupTelaState extends State<SetupTela> {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

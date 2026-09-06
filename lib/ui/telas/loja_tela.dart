@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/tema.dart';
+import '../widgets/tubo.dart';
 import '../../loja/catalogo_loja.dart';
 
 class LojaTela extends StatelessWidget {
@@ -11,8 +12,9 @@ class LojaTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text('Loja de pacotes')),
-      body: SafeArea(
+      body: Tubo(child: SafeArea(
         child: FutureBuilder<List<ItemLoja>>(
           future: catalogo.listarDisponiveis(),
           builder: (context, snapshot) {
@@ -61,7 +63,7 @@ class LojaTela extends StatelessWidget {
             );
           },
         ),
-      ),
+      )),
     );
   }
 }

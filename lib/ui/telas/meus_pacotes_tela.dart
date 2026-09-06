@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/tema.dart';
+import '../widgets/tubo.dart';
 import '../estado_app.dart';
 
 class MeusPacotesTela extends StatelessWidget {
@@ -11,8 +12,9 @@ class MeusPacotesTela extends StatelessWidget {
     final pacotes = EscopoApp.de(context).gerenciador.instalados;
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text('Meus pacotes')),
-      body: SafeArea(
+      body: Tubo(child: SafeArea(
         child: ListView.separated(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
           itemCount: pacotes.length,
@@ -62,7 +64,7 @@ class MeusPacotesTela extends StatelessWidget {
             );
           },
         ),
-      ),
+      )),
     );
   }
 }

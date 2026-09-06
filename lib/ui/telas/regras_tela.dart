@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/tema.dart';
+import '../widgets/tubo.dart';
 import '../../dominio/modelos/config_partida.dart';
 import '../../dominio/modelos/modificadores.dart';
 
@@ -12,8 +13,9 @@ class RegrasTela extends StatelessWidget {
     const tabela = Modificadores.padrao;
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text('Como se joga')),
-      body: SafeArea(
+      body: Tubo(child: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
           children: [
@@ -102,7 +104,7 @@ class RegrasTela extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

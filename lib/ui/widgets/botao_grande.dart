@@ -179,12 +179,16 @@ class BotoesDeJulgamento extends StatelessWidget {
     required this.aoAcertar,
     this.rotuloErro = 'Errou',
     this.rotuloAcerto = 'Acertou',
+    this.corErro = Cores.magenta,
+    this.corTextoErro = Cores.sobreClaro,
   });
 
   final VoidCallback aoErrar;
   final VoidCallback aoAcertar;
   final String rotuloErro;
   final String rotuloAcerto;
+  final Color corErro;
+  final Color corTextoErro;
 
   @override
   Widget build(BuildContext context) {
@@ -193,8 +197,8 @@ class BotoesDeJulgamento extends StatelessWidget {
         Expanded(
           child: _Julgamento(
             rotulo: rotuloErro,
-            fundo: Cores.magenta,
-            texto: Cores.sobreClaro,
+            fundo: corErro,
+            texto: corTextoErro,
             aoTocar: aoErrar,
           ),
         ),
@@ -234,11 +238,17 @@ class _Julgamento extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: fundo,
           foregroundColor: texto,
+          // Padrão do Flutter é largo demais: "ACERTOU" quebrava em duas
+          // linhas num botão de meia largura.
+          padding: const EdgeInsets.symmetric(horizontal: 6),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Medidas.raioBotao),
           ),
         ),
-        child: Text(rotulo.toUpperCase(), style: titulo(15, cor: texto)),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(rotulo.toUpperCase(), style: titulo(16, cor: texto)),
+        ),
       ),
     );
   }

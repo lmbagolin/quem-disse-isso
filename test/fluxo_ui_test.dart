@@ -114,7 +114,7 @@ void main() {
     await tester.tap(find.text('REVELAR RESPOSTA'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Era ele o tempo todo'), findsOneWidget);
+    expect(find.text('ERA ELE O TEMPO TODO'), findsOneWidget);
 
     // A roleta pode cair em Roubo, e aí a revelação pergunta quem acertou
     // em vez de julgar só o jogador da vez.
@@ -157,8 +157,11 @@ void main() {
     await tester.tap(find.text('REVELAR RESPOSTA'));
     await tester.pumpAndSettle();
 
-    // Exatamente uma opção é apontada como a certa.
-    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+    // A revelação troca de tela: a resposta ocupa o lugar das alternativas.
+    expect(find.text('ERA ELE O TEMPO TODO'), findsOneWidget);
+    for (final letra in ['A', 'B', 'C', 'D', 'E']) {
+      expect(find.text(letra), findsNothing, reason: 'a opção $letra ficou');
+    }
   });
 
   testWidgets('sem alternativas, a resposta aparece em destaque',
@@ -179,7 +182,7 @@ void main() {
     await tester.tap(find.text('REVELAR RESPOSTA'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Era ele o tempo todo'), findsOneWidget);
+    expect(find.text('ERA ELE O TEMPO TODO'), findsOneWidget);
   });
 
   testWidgets('regras e meus pacotes abrem sem quebrar', (tester) async {

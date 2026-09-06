@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/tema.dart';
 import '../../dominio/modelos/config_partida.dart';
 import '../widgets/balao.dart';
+import '../widgets/tubo.dart';
 import '../../dominio/modelos/modificadores.dart';
 import '../../dominio/motor/motor_partida.dart';
 import '../estado_app.dart';
@@ -11,6 +12,7 @@ import 'fases/fase_sorteio.dart';
 import 'fases/fase_fim.dart';
 import 'fases/fase_placar.dart';
 import 'fases/fase_pergunta.dart';
+import 'fases/fase_revelacao.dart';
 import 'fases/fase_tema.dart';
 
 class PartidaTela extends StatelessWidget {
@@ -47,6 +49,9 @@ class PartidaTela extends StatelessWidget {
       animation: controlador,
       builder: (context, _) {
         final motor = controlador.motor;
+        // Na revelação a tela inteira troca de canal: fundo magenta.
+        final revelando = motor.fase == FaseRodada.revelacao ||
+            motor.fase == FaseRodada.revelacaoAjuda;
         return PopScope(
           canPop: false,
           onPopInvokedWithResult: (jaSaiu, _) async {
@@ -57,11 +62,17 @@ class PartidaTela extends StatelessWidget {
             }
           },
           child: Scaffold(
-            body: SafeArea(
+            backgroundColor: Colors.transparent,
+            body: Tubo(
+              fundo: revelando ? Cores.magenta : Cores.fundo,
+              escuro: revelando,
+              child: SafeArea(
               child: Column(
                 children: [
                   BarraDaRodada(
                     rotulo: _tituloDaFase(motor),
+                    cor: revelando ? Cores.sobreClaro : Cores.textoFraco,
+                    corDoRotulo: revelando ? Cores.sobreClaro : Cores.destaque,
                     aoVoltar: () => Navigator.of(context).maybePop(),
                     aoAbrirPlacar: () => _mostrarPlacar(context, motor),
                   ),
@@ -77,6 +88,7 @@ class PartidaTela extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
             ),
           ),
         );
@@ -96,10 +108,9 @@ class PartidaTela extends StatelessWidget {
     return switch (motor.fase) {
       FaseRodada.sortearCanal => FaseSorteio(controlador: controlador),
       FaseRodada.escolherTema => FaseTema(controlador: controlador),
-      FaseRodada.pergunta ||
-      FaseRodada.revelacao ||
-      FaseRodada.revelacaoAjuda =>
-        FasePergunta(controlador: controlador),
+      FaseRodada.pergunta => FasePergunta(controlador: controlador),
+      FaseRodada.revelacao || FaseRodada.revelacaoAjuda =>
+        FaseRevelacao(controlador: controlador),
       FaseRodada.cartaEspecial || FaseRodada.escolherAjudante =>
         FaseCarta(controlador: controlador),
       FaseRodada.placar => FasePlacar(controlador: controlador),
@@ -199,9 +210,13 @@ class BarraDaRodada extends StatelessWidget {
     required this.rotulo,
     required this.aoVoltar,
     required this.aoAbrirPlacar,
+    this.cor = Cores.textoFraco,
+    this.corDoRotulo = Cores.destaque,
   });
 
   final String rotulo;
+  final Color cor;
+  final Color corDoRotulo;
   final VoidCallback aoVoltar;
   final VoidCallback aoAbrirPlacar;
 
@@ -215,23 +230,23 @@ class BarraDaRodada extends StatelessWidget {
           GestureDetector(
             onTap: aoVoltar,
             behavior: HitTestBehavior.opaque,
-            child: const SizedBox(
+            child: SizedBox(
               width: 32,
               height: 32,
-              child: Icon(Icons.arrow_back, size: 19, color: Cores.textoFraco),
+              child: Icon(Icons.arrow_back, size: 19, color: cor),
             ),
           ),
           Text(
             rotulo.toUpperCase(),
-            style: corpo(12, cor: Cores.destaque, peso: 700, espacamento: 2.2),
+            style: corpo(12, cor: corDoRotulo, peso: 700, espacamento: 2.2),
           ),
           GestureDetector(
             onTap: aoAbrirPlacar,
             behavior: HitTestBehavior.opaque,
-            child: const SizedBox(
+            child: SizedBox(
               width: 32,
               height: 32,
-              child: Center(child: BarrasDeSinal()),
+              child: Center(child: BarrasDeSinal(cor: cor)),
             ),
           ),
         ],

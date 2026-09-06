@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/tema.dart';
+import '../widgets/tubo.dart';
 import '../estado_app.dart';
 import '../widgets/balao.dart';
 import '../widgets/botao_grande.dart';
@@ -23,7 +24,7 @@ class HomeTela extends StatelessWidget {
     }
 
     return Scaffold(
-      body: SafeArea(
+      body: Tubo(child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -124,7 +125,7 @@ class HomeTela extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }
