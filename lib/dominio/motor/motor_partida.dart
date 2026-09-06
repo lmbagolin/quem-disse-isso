@@ -2,7 +2,7 @@ import 'dart:math';
 
 import '../modelos/carta_especial.dart';
 import '../modelos/config_partida.dart';
-import '../modelos/roleta.dart';
+import '../modelos/modificadores.dart';
 import '../modelos/jogador.dart';
 import '../modelos/pergunta.dart';
 import 'sorteador.dart';
@@ -10,7 +10,7 @@ import 'sorteador.dart';
 typedef Giro = ({ResultadoModificador modificador, String? tema});
 
 enum FaseRodada {
-  girarRoletas,
+  sortearCanal,
   escolherTema,
   pergunta,
   revelacao,
@@ -48,7 +48,7 @@ class MotorPartida {
 
   static const int totalDeAlternativas = 5;
 
-  FaseRodada fase = FaseRodada.girarRoletas;
+  FaseRodada fase = FaseRodada.sortearCanal;
   int indiceVez = 0;
   int rodadaAtual = 1;
 
@@ -99,8 +99,8 @@ class MotorPartida {
 
   /// Sorteia o giro sem aplicá-lo: a tela precisa do resultado antes de animar
   /// as roletas, para elas pararem no setor certo.
-  Giro sortearGiro() => (
-        modificador: config.roleta.girar(_sorte),
+  Giro prepararSorteio() => (
+        modificador: config.modificadores.sortear(_sorte),
         tema: sortearTema(),
       );
 
@@ -110,14 +110,14 @@ class MotorPartida {
     return temas[_sorte.nextInt(temas.length)];
   }
 
-  Giro girarRoletas() {
-    final giro = sortearGiro();
-    aplicarGiro(giro);
+  Giro sortearCanal() {
+    final giro = prepararSorteio();
+    aplicarSorteio(giro);
     return giro;
   }
 
-  void aplicarGiro(Giro giro) {
-    _exigir(FaseRodada.girarRoletas);
+  void aplicarSorteio(Giro giro) {
+    _exigir(FaseRodada.sortearCanal);
     modificador = giro.modificador;
     // No coringa o tema da roleta é descartado: quem escolhe é o jogador.
     if (giro.modificador.efeito == EfeitoModificador.coringa &&
@@ -211,7 +211,7 @@ class MotorPartida {
       return;
     }
     _limparRodada();
-    fase = FaseRodada.girarRoletas;
+    fase = FaseRodada.sortearCanal;
   }
 
   // --- Regras internas ------------------------------------------------------

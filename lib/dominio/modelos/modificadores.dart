@@ -19,31 +19,32 @@ enum EfeitoModificador {
   coringa(
     'Coringa',
     'Coringa',
-    'Você escolhe o tema em vez da roleta.',
+    'Você escolhe o canal em vez do sorteio.',
   );
 
   const EfeitoModificador(this.rotuloCurto, this.titulo, this.descricao);
 
-  /// Cabe dentro de um setor da roleta; [titulo] só aparece no resultado.
+  /// Cabe na faixa do modificador; [titulo] só aparece no resultado.
   final String rotuloCurto;
   final String titulo;
   final String descricao;
 }
 
 class ResultadoModificador {
-  const ResultadoModificador(this.setor, this.efeito);
+  const ResultadoModificador(this.indice, this.efeito);
 
-  final int setor;
+  final int indice;
   final EfeitoModificador efeito;
 }
 
-/// Roleta de modificadores. Repetir um efeito em mais setores é o que controla
-/// a probabilidade — é o principal ponto calibrável do design (seção 3.3 do
-/// documento). Os "normal" ficam alternados para a roleta parecer equilibrada.
-class RoletaModificadores {
-  const RoletaModificadores(this.setores);
+/// Tabela de sorteio dos modificadores. Repetir um efeito em mais entradas é o
+/// que controla a probabilidade — é o principal ponto calibrável do design.
+/// O nome não cita a tela de propósito: a apresentação já foi dado e roleta,
+/// e a regra não mudou em nenhuma das vezes.
+class Modificadores {
+  const Modificadores(this.entradas);
 
-  static const RoletaModificadores padrao = RoletaModificadores([
+  static const Modificadores padrao = Modificadores([
     EfeitoModificador.normal,
     EfeitoModificador.pontosEmDobro,
     EfeitoModificador.normal,
@@ -52,10 +53,10 @@ class RoletaModificadores {
     EfeitoModificador.coringa,
   ]);
 
-  final List<EfeitoModificador> setores;
+  final List<EfeitoModificador> entradas;
 
-  ResultadoModificador girar(Random sorte) {
-    final indice = sorte.nextInt(setores.length);
-    return ResultadoModificador(indice, setores[indice]);
+  ResultadoModificador sortear(Random sorte) {
+    final indice = sorte.nextInt(entradas.length);
+    return ResultadoModificador(indice, entradas[indice]);
   }
 }

@@ -1,5 +1,5 @@
 import 'carta_especial.dart';
-import 'roleta.dart';
+import 'modificadores.dart';
 import 'dificuldade.dart';
 import 'pergunta.dart';
 
@@ -52,7 +52,7 @@ class ConfigPartida {
     required this.idsPacotesAtivos,
     required this.vitoria,
     this.cartasAtivas = CartaEspecial.nenhuma,
-    this.roleta = RoletaModificadores.padrao,
+    this.modificadores = Modificadores.padrao,
     this.regras = const RegrasPontuacao(),
     this.segundosParaResponder = segundosPadrao,
     this.dificuldadesAtivas = todasAsDificuldades,
@@ -76,7 +76,7 @@ class ConfigPartida {
   final Set<String> idsPacotesAtivos;
   final CondicaoVitoria vitoria;
   final Set<CartaEspecial> cartasAtivas;
-  final RoletaModificadores roleta;
+  final Modificadores modificadores;
   final RegrasPontuacao regras;
 
   /// Tempo de resposta antes do aviso de "tempo esgotado". Esgotar não revela

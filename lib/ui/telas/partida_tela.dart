@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../core/tema.dart';
 import '../../dominio/modelos/config_partida.dart';
 import '../widgets/balao.dart';
-import '../../dominio/modelos/roleta.dart';
+import '../../dominio/modelos/modificadores.dart';
 import '../../dominio/motor/motor_partida.dart';
 import '../estado_app.dart';
 import 'fases/fase_carta.dart';
-import 'fases/fase_roletas.dart';
+import 'fases/fase_sorteio.dart';
 import 'fases/fase_fim.dart';
 import 'fases/fase_placar.dart';
 import 'fases/fase_pergunta.dart';
@@ -93,7 +93,7 @@ class PartidaTela extends StatelessWidget {
 
   Widget _corpo(BuildContext context, MotorPartida motor) {
     return switch (motor.fase) {
-      FaseRodada.girarRoletas => FaseRoletas(controlador: controlador),
+      FaseRodada.sortearCanal => FaseSorteio(controlador: controlador),
       FaseRodada.escolherTema => FaseTema(controlador: controlador),
       FaseRodada.pergunta ||
       FaseRodada.revelacao ||
@@ -181,7 +181,9 @@ class FaixaDaVez extends StatelessWidget {
 
 /// A cor diz o que a rodada é antes de o jogador ler o rótulo.
 Color corDoModificador(EfeitoModificador efeito) => switch (efeito) {
-      EfeitoModificador.normal => Cores.superficie,
+      // Lavanda clara, não a superfície: o texto da faixa é azul-tubo e
+      // sobre superfície escura ele não passa em contraste.
+      EfeitoModificador.normal => Cores.textoApagado,
       EfeitoModificador.pontosEmDobro => Cores.destaque,
       EfeitoModificador.rouboLiberado => Cores.magenta,
       EfeitoModificador.coringa => Cores.ciano,

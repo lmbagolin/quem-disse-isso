@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'core/tema.dart';
 import 'ui/estado_app.dart';
 import 'ui/telas/home_tela.dart';
+import 'ui/widgets/tubo.dart';
 
 class QuemDisseIssoApp extends StatefulWidget {
   const QuemDisseIssoApp({super.key, this.estado});
@@ -36,6 +37,8 @@ class _QuemDisseIssoAppState extends State<QuemDisseIssoApp> {
         title: 'Quem Disse Isso?',
         debugShowCheckedModeBanner: false,
         theme: construirTema(),
+        // A textura cobre o app inteiro, por cima de qualquer tela.
+        builder: (context, tela) => Tubo(child: tela ?? const SizedBox()),
         home: const HomeTela(),
       ),
     );

@@ -93,6 +93,26 @@ vez, e errar tem consequência.
 `CartaEspecial.nenhuma`. As três seguem implementadas e testadas; ligar é passar
 um conjunto em `ConfigPartida.cartasAtivas`.
 
+### As roletas viraram zapping de canais
+
+**O que existia:** duas roletas — uma sorteava o tema, outra o modificador.
+
+**O que existe:** uma TV que passa pelos canais e para em um, com a faixa do
+modificador subindo por baixo quando o sinal fixa.
+
+**Por quê:** está na legenda do próprio sistema visual — *"funciona igual com 4
+ou 40 pacotes"*. A roleta tinha um teto: com quatro canais os setores já ficavam
+apertados, e com dez o rótulo não caberia. O zapping não tem esse limite, e
+ainda casa melhor com a marca, que é uma TV.
+
+Ganho de lado: o sorteio ficou num gesto só em vez de dois, e o modificador
+aparece como consequência do canal parar, não como um segundo evento.
+
+**A tabela de modificadores mudou de nome, não de regra.** Já foi `Dado`, depois
+`RoletaModificadores`; agora é `Modificadores`, com `entradas` em vez de
+`setores`. O nome deixou de citar a tela de propósito: a apresentação mudou três
+vezes e a regra nenhuma. A probabilidade continua sendo a proporção de entradas.
+
 ### Identidade visual: a TV é o balão de fala
 
 A identidade veio pronta do Claude Design (projeto "Quem Disse Isso design",

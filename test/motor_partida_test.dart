@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quem_disse_isso/dominio/modelos/carta_especial.dart';
 import 'package:quem_disse_isso/dominio/modelos/config_partida.dart';
-import 'package:quem_disse_isso/dominio/modelos/roleta.dart';
+import 'package:quem_disse_isso/dominio/modelos/modificadores.dart';
 import 'package:quem_disse_isso/dominio/modelos/dificuldade.dart';
 import 'package:quem_disse_isso/dominio/modelos/pergunta.dart';
 import 'package:quem_disse_isso/dominio/motor/motor_partida.dart';
@@ -9,8 +9,8 @@ import 'package:quem_disse_isso/dominio/motor/motor_partida.dart';
 import 'apoio.dart';
 
 MotorPartida motorCom({
-  RoletaModificadores roleta =
-      const RoletaModificadores([EfeitoModificador.normal]),
+  Modificadores modificadores =
+      const Modificadores([EfeitoModificador.normal]),
   CondicaoVitoria vitoria = const CondicaoVitoria.porPontos(3),
   Set<CartaEspecial> cartas = CartaEspecial.nenhuma,
   int perguntas = 40,
@@ -22,7 +22,7 @@ MotorPartida motorCom({
       idsPacotesAtivos: const {'pacote_a'},
       vitoria: vitoria,
       cartasAtivas: cartas,
-      roleta: roleta,
+      modificadores: modificadores,
       semente: 42,
     ),
     perguntas: perguntasFalsas(perguntas, dificuldade: dificuldade),
@@ -63,7 +63,7 @@ void main() {
   group('fluxo da rodada', () {
     test('acerto pontua o jogador da vez e vai ao placar', () {
       final motor = motorCom();
-      motor.girarRoletas();
+      motor.sortearCanal();
       expect(motor.fase, FaseRodada.pergunta);
       motor.revelarResposta();
       motor.registrarAcerto();
@@ -78,7 +78,7 @@ void main() {
       for (var i = 0; i < 3; i++) {
         expect(motor.indiceVez, i);
         expect(motor.rodadaAtual, 1);
-        motor.girarRoletas();
+        motor.sortearCanal();
         motor.revelarResposta();
         motor.registrarAcerto();
         motor.proximaVez();
@@ -95,8 +95,8 @@ void main() {
 
   group('dado', () {
     test('face de dobro dobra o ponto da rodada', () {
-      final motor = motorCom(roleta: const RoletaModificadores([EfeitoModificador.pontosEmDobro]));
-      motor.girarRoletas();
+      final motor = motorCom(modificadores: const Modificadores([EfeitoModificador.pontosEmDobro]));
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcerto();
       expect(motor.jogadores.first.pontos, 2);
@@ -104,18 +104,18 @@ void main() {
 
     test('dificuldade difícil vale mais e ainda dobra', () {
       final motor = motorCom(
-        roleta: const RoletaModificadores([EfeitoModificador.pontosEmDobro]),
+        modificadores: const Modificadores([EfeitoModificador.pontosEmDobro]),
         dificuldade: Dificuldade.dificil,
       );
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcerto();
       expect(motor.jogadores.first.pontos, 4);
     });
 
     test('coringa com um só tema não pede escolha', () {
-      final motor = motorCom(roleta: const RoletaModificadores([EfeitoModificador.coringa]));
-      motor.girarRoletas();
+      final motor = motorCom(modificadores: const Modificadores([EfeitoModificador.coringa]));
+      motor.sortearCanal();
       expect(motor.fase, FaseRodada.pergunta);
     });
 
@@ -125,7 +125,7 @@ void main() {
           nomesJogadores: const ['Ana', 'Beto', 'Cida'],
           idsPacotesAtivos: const {'pacote_a', 'pacote_b'},
           vitoria: const CondicaoVitoria.porPontos(10),
-          roleta: const RoletaModificadores([EfeitoModificador.coringa]),
+          modificadores: const Modificadores([EfeitoModificador.coringa]),
           semente: 1,
         ),
         perguntas: [
@@ -133,7 +133,7 @@ void main() {
           ...perguntasFalsas(5, idPacote: 'pacote_b'),
         ],
       );
-      motor.girarRoletas();
+      motor.sortearCanal();
       expect(motor.fase, FaseRodada.escolherTema);
       motor.escolherTema('pacote_b');
       expect(motor.perguntaAtual!.idPacote, 'pacote_b');
@@ -146,7 +146,7 @@ void main() {
           nomesJogadores: const ['Ana', 'Beto', 'Cida'],
           idsPacotesAtivos: const {'pacote_a', 'pacote_b'},
           vitoria: const CondicaoVitoria.porPontos(10),
-          roleta: const RoletaModificadores([EfeitoModificador.normal]),
+          modificadores: const Modificadores([EfeitoModificador.normal]),
           semente: 9,
         ),
         perguntas: [
@@ -154,16 +154,16 @@ void main() {
           ...perguntasFalsas(5, idPacote: 'pacote_b'),
         ],
       );
-      motor.aplicarGiro((
+      motor.aplicarSorteio((
         modificador: const ResultadoModificador(0, EfeitoModificador.normal),
         tema: 'pacote_b',
       ));
       expect(motor.perguntaAtual!.idPacote, 'pacote_b');
     });
 
-    test('sortearGiro devolve um tema que ainda tem pergunta', () {
+    test('prepararSorteio devolve um tema que ainda tem pergunta', () {
       final motor = motorCom(perguntas: 3);
-      final giro = motor.sortearGiro();
+      final giro = motor.prepararSorteio();
       expect(motor.temasDisponiveis, contains(giro.tema));
     });
 
@@ -172,7 +172,7 @@ void main() {
   group('erro encerra a rodada', () {
     test('errar não dá ponto a ninguém e vai direto ao placar', () {
       final motor = motorCom();
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarErro();
 
@@ -184,13 +184,13 @@ void main() {
 
   group('rodada de roubo', () {
     MotorPartida motorDeRoubo() => motorCom(
-          roleta:
-              const RoletaModificadores([EfeitoModificador.rouboLiberado]),
+          modificadores:
+              const Modificadores([EfeitoModificador.rouboLiberado]),
         );
 
     test('a revelação pergunta quem acertou, não se o da vez acertou', () {
       final motor = motorDeRoubo();
-      motor.girarRoletas();
+      motor.sortearCanal();
       expect(motor.rodadaDeRoubo, isTrue);
       motor.revelarResposta();
       expect(motor.fase, FaseRodada.revelacao);
@@ -198,7 +198,7 @@ void main() {
 
     test('quem acertou primeiro leva o ponto, mesmo não sendo o da vez', () {
       final motor = motorDeRoubo();
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcertoDe(motor.jogadores[2]);
 
@@ -209,7 +209,7 @@ void main() {
 
     test('o jogador da vez também pode levar o ponto', () {
       final motor = motorDeRoubo();
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcertoDe(motor.jogadorDaVez);
       expect(motor.jogadores.first.pontos, 1);
@@ -217,7 +217,7 @@ void main() {
 
     test('ninguém acertando encerra sem ponto', () {
       final motor = motorDeRoubo();
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.ninguemAcertou();
 
@@ -227,7 +227,7 @@ void main() {
 
     test('o dobro não se acumula com o roubo: são setores diferentes', () {
       final motor = motorDeRoubo();
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcertoDe(motor.jogadores[1]);
       expect(motor.jogadores[1].pontos, 1);
@@ -237,7 +237,7 @@ void main() {
   group('cartas opcionais (desligadas por padrão)', () {
     test('sem carta ativa o erro não sorteia nada', () {
       final motor = motorCom();
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarErro();
       expect(motor.cartaAtual, isNull);
@@ -245,7 +245,7 @@ void main() {
 
     test('ligar a Ajuda devolve a segunda chance no erro', () {
       final motor = motorCom(cartas: const {CartaEspecial.ajuda});
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarErro();
       expect(motor.fase, FaseRodada.cartaEspecial);
@@ -260,7 +260,7 @@ void main() {
 
     test('ligar o Pulo troca a frase sem pontuar', () {
       final motor = motorCom(cartas: const {CartaEspecial.pulo});
-      motor.girarRoletas();
+      motor.sortearCanal();
       final antes = motor.perguntaAtual!.id;
       motor.revelarResposta();
       motor.registrarErro();
@@ -281,7 +281,7 @@ void main() {
             nomesJogadores: const ['Ana', 'Beto', 'Cida'],
             idsPacotesAtivos: const {'pacote_a'},
             vitoria: const CondicaoVitoria.porPontos(99),
-            roleta: const RoletaModificadores([EfeitoModificador.normal]),
+            modificadores: const Modificadores([EfeitoModificador.normal]),
             comAlternativas: ligado,
             semente: 4,
           ),
@@ -290,13 +290,13 @@ void main() {
 
     test('desligado não monta alternativa nenhuma', () {
       final motor = motorComAlternativas(ligado: false);
-      motor.girarRoletas();
+      motor.sortearCanal();
       expect(motor.alternativas, isEmpty);
     });
 
     test('ligado monta cinco opções sem repetir', () {
       final motor = motorComAlternativas();
-      motor.girarRoletas();
+      motor.sortearCanal();
       expect(motor.alternativas, hasLength(MotorPartida.totalDeAlternativas));
       expect(motor.alternativas.toSet(), hasLength(motor.alternativas.length));
     });
@@ -304,7 +304,7 @@ void main() {
     test('a resposta certa está sempre entre elas', () {
       final motor = motorComAlternativas();
       for (var i = 0; i < 8; i++) {
-        motor.girarRoletas();
+        motor.sortearCanal();
         expect(motor.alternativas, contains(motor.perguntaAtual!.resposta));
         motor.revelarResposta();
         motor.registrarAcerto();
@@ -318,7 +318,7 @@ void main() {
           nomesJogadores: const ['Ana', 'Beto', 'Cida'],
           idsPacotesAtivos: const {'pacote_a', 'pacote_b'},
           vitoria: const CondicaoVitoria.porPontos(99),
-          roleta: const RoletaModificadores([EfeitoModificador.normal]),
+          modificadores: const Modificadores([EfeitoModificador.normal]),
           comAlternativas: true,
           semente: 2,
         ),
@@ -327,7 +327,7 @@ void main() {
           ...perguntasFalsas(10, idPacote: 'pacote_b'),
         ],
       );
-      motor.girarRoletas();
+      motor.sortearCanal();
       final doPacote = perguntasFalsas(10, idPacote: motor.perguntaAtual!.idPacote)
           .map((p) => p.resposta)
           .toSet();
@@ -336,14 +336,14 @@ void main() {
 
     test('acervo pequeno devolve o que existe, sem quebrar', () {
       final motor = motorComAlternativas(perguntas: perguntasFalsas(3));
-      motor.girarRoletas();
+      motor.sortearCanal();
       expect(motor.alternativas, hasLength(3));
       expect(motor.alternativas, contains(motor.perguntaAtual!.resposta));
     });
 
     test('a lista não muda entre leituras da mesma pergunta', () {
       final motor = motorComAlternativas();
-      motor.girarRoletas();
+      motor.sortearCanal();
       final primeira = motor.alternativas;
       expect(motor.alternativas, same(primeira));
       motor.revelarResposta();
@@ -357,7 +357,7 @@ void main() {
             nomesJogadores: const ['Ana', 'Beto', 'Cida'],
             idsPacotesAtivos: const {'pacote_a'},
             vitoria: const CondicaoVitoria.porPontos(99),
-            roleta: const RoletaModificadores([EfeitoModificador.normal]),
+            modificadores: const Modificadores([EfeitoModificador.normal]),
             dificuldadesAtivas: niveis,
             semente: 11,
           ),
@@ -372,7 +372,7 @@ void main() {
       final motor = motorComNiveis({Dificuldade.dificil});
       var vistas = 0;
       while (motor.temPerguntas) {
-        motor.girarRoletas();
+        motor.sortearCanal();
         expect(motor.perguntaAtual!.dificuldade, Dificuldade.dificil);
         vistas++;
         motor.revelarResposta();
@@ -400,7 +400,7 @@ void main() {
 
     test('o filtro não mexe na pontuação por dificuldade', () {
       final motor = motorComNiveis({Dificuldade.dificil});
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcerto();
       expect(motor.jogadores.first.pontos, 2);
@@ -411,17 +411,17 @@ void main() {
     test('termina assim que alguém atinge a meta de pontos', () {
       final motor = motorCom(vitoria: const CondicaoVitoria.porPontos(2));
       for (var volta = 0; volta < 2; volta++) {
-        motor.girarRoletas();
+        motor.sortearCanal();
         motor.revelarResposta();
         motor.registrarAcerto();
         motor.proximaVez();
         if (motor.fase == FaseRodada.fim) break;
-        motor.girarRoletas();
+        motor.sortearCanal();
         motor.revelarResposta();
         motor.registrarErro();
         motor.fase = FaseRodada.placar;
         motor.proximaVez();
-        motor.girarRoletas();
+        motor.sortearCanal();
         motor.revelarResposta();
         motor.registrarErro();
         motor.fase = FaseRodada.placar;
@@ -435,7 +435,7 @@ void main() {
       final motor = motorCom(vitoria: const CondicaoVitoria.porRodadas(2));
       var jogadas = 0;
       while (motor.fase != FaseRodada.fim && jogadas < 20) {
-        motor.girarRoletas();
+        motor.sortearCanal();
         motor.revelarResposta();
         motor.registrarAcerto();
         motor.proximaVez();
@@ -451,11 +451,11 @@ void main() {
         vitoria: const CondicaoVitoria.porPontos(999),
         perguntas: 2,
       );
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcerto();
       motor.proximaVez();
-      motor.girarRoletas();
+      motor.sortearCanal();
       motor.revelarResposta();
       motor.registrarAcerto();
       motor.proximaVez();
@@ -467,7 +467,7 @@ void main() {
         final motor = motorCom(vitoria: const CondicaoVitoria.porPontos(99));
         final frases = <String>[];
         for (var i = 0; i < 6; i++) {
-          motor.girarRoletas();
+          motor.sortearCanal();
           frases.add(motor.perguntaAtual!.id);
           motor.revelarResposta();
           motor.registrarAcerto();

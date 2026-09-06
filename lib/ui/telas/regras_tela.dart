@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../core/tema.dart';
 import '../../dominio/modelos/config_partida.dart';
-import '../../dominio/modelos/roleta.dart';
+import '../../dominio/modelos/modificadores.dart';
 
 class RegrasTela extends StatelessWidget {
   const RegrasTela({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const roleta = RoletaModificadores.padrao;
+    const tabela = Modificadores.padrao;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Como se joga')),
@@ -18,18 +18,18 @@ class RegrasTela extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
           children: [
             const _Titulo('A rodada'),
-            const _Passo(1, 'O jogador da vez gira as duas roletas.'),
+            const _Passo(1, 'O jogador da vez troca de canal.'),
             const _Passo(
-                2, 'Uma dá o tema da frase; a outra, o que muda na rodada.'),
+                2, 'A TV para num canal e mostra o que muda na rodada.'),
             const _Passo(3, 'Ele tenta descobrir quem disse — em voz alta.'),
             const _Passo(4, 'O app revela a resposta.'),
             const _Passo(
                 5, 'A mesa decide se valeu. Acertou pontua; errou encerra.'),
             const SizedBox(height: 24),
-            const _Titulo('As roletas'),
+            const _Titulo('O sorteio'),
             Text(
-              'A roleta de tema sorteia de qual pacote sai a frase. A de '
-              'modificador diz o que muda na rodada:',
+              'A TV passa pelos canais e para num deles: é dali que vem a '
+              'frase. Junto sobe o modificador, que diz o que muda na rodada:',
               style: corpo(14, cor: Cores.textoFraco, altura: 1.5),
             ),
             const SizedBox(height: 14),
@@ -47,8 +47,8 @@ class RegrasTela extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${roleta.setores.where((e) => e == efeito).length} '
-                          'de ${roleta.setores.length} setores',
+                          '${tabela.entradas.where((e) => e == efeito).length} '
+                          'de ${tabela.entradas.length} chances',
                           style: corpo(12, cor: Cores.textoFraco),
                         ),
                       ],

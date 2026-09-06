@@ -78,7 +78,7 @@ proposital: a UI não consegue corromper o estado por engano, e o erro aparece n
 teste em vez de virar bug silencioso em produção.
 
 ```
-girarRoletas ──┬─→ escolherTema ─→ pergunta        (coringa com 2+ temas)
+sortearCanal ──┬─→ escolherTema ─→ pergunta        (coringa com 2+ canais)
                └─────────────────→ pergunta
 
 pergunta ─→ revelacao ─┬─ rodada normal ─┬─ acertou ──→ placar
@@ -170,20 +170,16 @@ Duas armadilhas já pegas em produção:
   vazio; use `Icon(Icons.check_rounded)`. Vale para qualquer símbolo fora do
   alfabeto latino.
 
-### Mexer nas roletas
+### Mexer no sorteio
 
-`RoletaWidget` (`ui/widgets/roleta_widget.dart`) pinta em canvas. Duas funções
-puras carregam a geometria e têm teste próprio:
+`FaseSorteio` (`ui/telas/fases/fase_sorteio.dart`) é a TV que faz zapping. São
+17 trocas de canal com intervalo `34 + passo² × 2,2` ms, o que desacelera até
+parar; depois vem uma pausa de 300ms e a faixa do modificador sobe.
 
-- `anguloDeRepouso(indice, total)` — onde a roleta para para o setor cair sob o
-  ponteiro.
-- `alvoDoGiro(atual, indice, total, voltas:)` — o ângulo do giro, sempre para a
-  frente.
-- `direcaoDoSetor` e `rotacaoDoRotulo` — posicionam o texto.
-
-Se mexer no desenho, **rode `roleta_test.dart`**. Já houve um bug em que os
-rótulos saíam espelhados e só o topo e a base ficavam certos, por acaso — é
-exatamente o tipo de erro que passa numa olhada rápida na tela.
+**O encadeamento é de `Future.delayed`, não de `AnimationController`.** Isso
+importa no teste: `pumpAndSettle` volta antes da hora porque não há quadro
+agendado entre um passo e outro. Avance o relógio em fatias — veja
+`trocarDeCanal` em `fluxo_ui_test.dart`.
 
 ### Adicionar uma tela nova de fase
 

@@ -34,6 +34,17 @@ Future<void> abrirApp(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+/// O zapping encadeia Future.delayed sem agendar quadro entre um passo e
+/// outro, então pumpAndSettle volta antes da hora: é preciso avançar o
+/// relógio em fatias.
+Future<void> trocarDeCanal(WidgetTester tester) async {
+  await tester.tap(find.text('TROCAR DE CANAL'));
+  for (var i = 0; i < 40; i++) {
+    await tester.pump(const Duration(milliseconds: 300));
+  }
+  await tester.pumpAndSettle();
+}
+
 Future<void> tocarEm(WidgetTester tester, String rotulo) async {
   await tester.dragUntilVisible(
     find.text(rotulo),
@@ -86,7 +97,7 @@ void main() {
     expect(find.text('Todo jogador precisa de um nome.'), findsOneWidget);
   });
 
-  testWidgets('uma rodada completa vai das roletas ao placar', (tester) async {
+  testWidgets('uma rodada completa vai do sorteio ao placar', (tester) async {
     await abrirApp(tester);
     await tester.tap(find.text('JOGAR'));
     await tester.pumpAndSettle();
@@ -95,8 +106,7 @@ void main() {
     await tocarEmComecar(tester);
     expect(find.text('JOGADOR 1'), findsOneWidget);
 
-    await tester.tap(find.text('GIRAR AS ROLETAS'));
-    await tester.pumpAndSettle();
+    await trocarDeCanal(tester);
     await tester.tap(find.text('VER A FRASE'));
     await tester.pumpAndSettle();
 
@@ -119,7 +129,7 @@ void main() {
     expect(find.text('COMO ESTÁ O JOGO'), findsOneWidget);
     expect(find.textContaining('+'), findsWidgets);
 
-    await tester.tap(find.text('PASSAR O CELULAR'));
+    await tester.tap(find.text('PRÓXIMA RODADA'));
     await tester.pumpAndSettle();
     expect(find.text('JOGADOR 2'), findsOneWidget);
   });
@@ -134,8 +144,7 @@ void main() {
     await tocarEm(tester, 'Com alternativas');
     await tocarEmComecar(tester);
 
-    await tester.tap(find.text('GIRAR AS ROLETAS'));
-    await tester.pumpAndSettle();
+    await trocarDeCanal(tester);
     await tester.tap(find.text('VER A FRASE'));
     await tester.pumpAndSettle();
 
@@ -162,8 +171,7 @@ void main() {
     await tocarEm(tester, 'Sem alternativas');
     await tocarEmComecar(tester);
 
-    await tester.tap(find.text('GIRAR AS ROLETAS'));
-    await tester.pumpAndSettle();
+    await trocarDeCanal(tester);
     await tester.tap(find.text('VER A FRASE'));
     await tester.pumpAndSettle();
 
@@ -179,7 +187,7 @@ void main() {
 
     await tester.tap(find.text('Como se joga'));
     await tester.pumpAndSettle();
-    expect(find.text('As roletas'.toUpperCase()), findsOneWidget);
+    expect(find.text('O SORTEIO'), findsOneWidget);
     await tester.pageBack();
     await tester.pumpAndSettle();
 

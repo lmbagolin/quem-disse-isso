@@ -74,7 +74,7 @@ class FasePlacar extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           BotaoGrande(
-            rotulo: 'Passar o celular',
+            rotulo: 'Próxima rodada',
             aoTocar: () => controlador.executar((m) => m.proximaVez()),
           ),
         ],

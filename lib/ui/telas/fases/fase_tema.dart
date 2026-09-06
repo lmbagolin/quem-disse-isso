@@ -23,7 +23,7 @@ class FaseTema extends StatelessWidget {
           FaixaDaVez(motor: motor),
           const SizedBox(height: 24),
           Text(
-            'Coringa! Escolha o tema da sua pergunta.',
+            'CORINGA! ESCOLHA O CANAL.',
             style: titulo(22),
           ),
           const SizedBox(height: 16),
