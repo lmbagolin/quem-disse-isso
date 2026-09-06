@@ -177,3 +177,97 @@ class Selo extends StatelessWidget {
     );
   }
 }
+
+
+/// A marca: o "?!" dentro do balão, com o rabicho embaixo à esquerda. É o
+/// ícone do app reduzido — mesma forma em 48px e na tela inicial.
+class SeloDaMarca extends StatelessWidget {
+  const SeloDaMarca({super.key, this.largura = 74, this.altura = 60});
+
+  final double largura;
+  final double altura;
+
+  static const double _rabicho = 13;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: largura + 5,
+      height: altura + _rabicho,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: largura,
+            height: altura,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Cores.ciano,
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: Medidas.sombraSolida,
+            ),
+            child: Text(
+              '?!',
+              style: titulo(30, cor: Cores.sobreClaro, altura: 1),
+            ),
+          ),
+          Positioned(
+            top: altura,
+            left: 18,
+            child: CustomPaint(
+              size: const Size(_rabicho, _rabicho),
+              painter: _RabichoSimples(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Rabicho sem sombra: no selo da marca a sombra é só do balão.
+class _RabichoSimples extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final caminho = Path()
+      ..moveTo(0, 0)
+      ..lineTo(size.width, 0)
+      ..lineTo(0, size.height)
+      ..close();
+    canvas.drawPath(caminho, Paint()..color = Cores.ciano);
+  }
+
+  @override
+  bool shouldRepaint(_RabichoSimples anterior) => false;
+}
+
+/// Etiqueta "AO VIVO": pílula magenta com o ponto, no alto à direita.
+class SeloAoVivo extends StatelessWidget {
+  const SeloAoVivo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Cores.magenta,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 7,
+            height: 7,
+            decoration: const BoxDecoration(
+              color: Cores.sobreClaro,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 6),
+          Text('AO VIVO', style: etiqueta(cor: Cores.sobreClaro)),
+        ],
+      ),
+    );
+  }
+}

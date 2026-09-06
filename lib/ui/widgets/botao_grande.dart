@@ -12,6 +12,7 @@ class BotaoGrande extends StatelessWidget {
     this.cor = Cores.destaque,
     this.corTexto = Cores.sobreClaro,
     this.icone,
+    this.tamanho = 17,
   });
 
   final String rotulo;
@@ -19,6 +20,7 @@ class BotaoGrande extends StatelessWidget {
   final Color cor;
   final Color corTexto;
   final IconData? icone;
+  final double tamanho;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,6 @@ class BotaoGrande extends StatelessWidget {
         ),
         child: SizedBox(
           width: double.infinity,
-          height: 58,
           child: FilledButton.icon(
             onPressed: aoTocar,
             icon: icone == null ? const SizedBox.shrink() : Icon(icone, size: 20),
@@ -41,13 +42,15 @@ class BotaoGrande extends StatelessWidget {
             // e o foregroundColor do botão não vence um TextStyle com cor.
             label: Text(
               rotulo.toUpperCase(),
-              style: titulo(17, cor: desligado ? Cores.textoFraco : corTexto),
+              style: titulo(tamanho, cor: desligado ? Cores.textoFraco : corTexto),
             ),
             style: FilledButton.styleFrom(
               backgroundColor: cor,
               foregroundColor: corTexto,
               disabledBackgroundColor: Cores.superficieAlta,
               disabledForegroundColor: Cores.textoFraco,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              minimumSize: const Size(0, 56),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Medidas.raioBotao),
               ),
@@ -76,14 +79,15 @@ class BotaoSecundario extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 52,
       child: FilledButton.icon(
         onPressed: aoTocar,
         icon: icone == null ? const SizedBox.shrink() : Icon(icone, size: 19),
-        label: Text(rotulo, style: corpo(15, peso: 700)),
+        label: Text(rotulo, style: corpo(14, peso: 700)),
         style: FilledButton.styleFrom(
           backgroundColor: Cores.superficie,
           foregroundColor: Cores.texto,
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          minimumSize: const Size(0, 44),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Medidas.raioBotao),
           ),
@@ -189,6 +193,27 @@ class _Julgamento extends StatelessWidget {
         ),
         child: Text(rotulo.toUpperCase(), style: titulo(15, cor: texto)),
       ),
+    );
+  }
+}
+
+
+/// Texto puro: a ação que não deve puxar o olho.
+class BotaoTexto extends StatelessWidget {
+  const BotaoTexto({super.key, required this.rotulo, required this.aoTocar});
+
+  final String rotulo;
+  final VoidCallback? aoTocar;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: aoTocar,
+      style: TextButton.styleFrom(
+        foregroundColor: Cores.textoFraco,
+        minimumSize: const Size(0, 44),
+      ),
+      child: Text(rotulo, style: corpo(14, cor: Cores.textoFraco, peso: 700)),
     );
   }
 }
