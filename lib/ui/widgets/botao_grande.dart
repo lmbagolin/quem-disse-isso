@@ -12,7 +12,7 @@ class BotaoGrande extends StatelessWidget {
     this.cor = Cores.destaque,
     this.corTexto = Cores.sobreClaro,
     this.icone,
-    this.tamanho = 17,
+    this.tamanho = 18,
   });
 
   final String rotulo;
@@ -24,39 +24,86 @@ class BotaoGrande extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final desligado = aoTocar == null;
-    return Padding(
-      // A sombra sólida vive fora da caixa: sem esta margem ela é cortada.
-      padding: const EdgeInsets.only(right: 5, bottom: 5),
-      child: DecoratedBox(
+    return _ComSombraSolida(
+      aoTocar: aoTocar,
+      child: (pressionado) => Container(
+        width: double.infinity,
+        constraints: const BoxConstraints(minHeight: 56),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
         decoration: BoxDecoration(
+          color: aoTocar == null ? Cores.superficieAlta : cor,
           borderRadius: BorderRadius.circular(Medidas.raioBotao),
-          boxShadow: desligado ? null : Medidas.sombraSolida,
         ),
-        child: SizedBox(
-          width: double.infinity,
-          child: FilledButton.icon(
-            onPressed: aoTocar,
-            icon: icone == null ? const SizedBox.shrink() : Icon(icone, size: 20),
-            // A cor vai no estilo: texto sobre amarelo é sempre azul-tubo,
-            // e o foregroundColor do botão não vence um TextStyle com cor.
-            label: Text(
-              rotulo.toUpperCase(),
-              style: titulo(tamanho, cor: desligado ? Cores.textoFraco : corTexto),
-            ),
-            style: FilledButton.styleFrom(
-              backgroundColor: cor,
-              foregroundColor: corTexto,
-              disabledBackgroundColor: Cores.superficieAlta,
-              disabledForegroundColor: Cores.textoFraco,
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              minimumSize: const Size(0, 56),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Medidas.raioBotao),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icone != null) ...[
+              Icon(icone, size: 20, color: corTexto),
+              const SizedBox(width: 8),
+            ],
+            Flexible(
+              child: Text(
+                rotulo.toUpperCase(),
+                textAlign: TextAlign.center,
+                // A cor vai no estilo: texto sobre amarelo é sempre azul-tubo,
+                // e a cor do botão não vence um TextStyle com cor.
+                style: titulo(
+                  tamanho,
+                  cor: aoTocar == null ? Cores.textoFraco : corTexto,
+                ),
               ),
             ),
-          ),
+          ],
         ),
+      ),
+    );
+  }
+}
+
+/// Sombra sólida com o afundar do desenho: ao pressionar, o conteúdo desce
+/// 3px e a sombra encolhe para 2px, como se o botão entrasse nela.
+class _ComSombraSolida extends StatefulWidget {
+  const _ComSombraSolida({required this.aoTocar, required this.child});
+
+  final VoidCallback? aoTocar;
+  final Widget Function(bool pressionado) child;
+
+  @override
+  State<_ComSombraSolida> createState() => _ComSombraSolidaState();
+}
+
+class _ComSombraSolidaState extends State<_ComSombraSolida> {
+  bool _pressionado = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final ligado = widget.aoTocar != null;
+    final afundado = ligado && _pressionado;
+    return GestureDetector(
+      onTap: widget.aoTocar,
+      onTapDown: ligado ? (_) => setState(() => _pressionado = true) : null,
+      onTapUp: ligado ? (_) => setState(() => _pressionado = false) : null,
+      onTapCancel: ligado ? () => setState(() => _pressionado = false) : null,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 70),
+        transform: Matrix4.translationValues(
+          afundado ? 3 : 0,
+          afundado ? 3 : 0,
+          0,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Medidas.raioBotao),
+          boxShadow: ligado
+              ? [
+                  BoxShadow(
+                    color: Cores.magenta,
+                    offset: afundado ? const Offset(2, 2) : Medidas.deslocamentoSombra,
+                  ),
+                ]
+              : null,
+        ),
+        child: widget.child(afundado),
       ),
     );
   }

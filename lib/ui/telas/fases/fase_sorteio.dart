@@ -90,7 +90,7 @@ class _FaseSorteioState extends State<FaseSorteio> {
     final canal = _canalNaTela == null ? null : Canal.de(context, _canalNaTela!);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 6, 20, 20),
+      padding: const EdgeInsets.fromLTRB(20, 6, 20, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -102,14 +102,12 @@ class _FaseSorteioState extends State<FaseSorteio> {
             modificador: _modificadorAVista ? resultado?.modificador.efeito : null,
           ),
           const SizedBox(height: 18),
-          SizedBox(
-            height: 42,
-            child: Center(
-              child: Text(
-                _legenda(canal, resultado, escolheCanal),
-                textAlign: TextAlign.center,
-                style: corpo(14, cor: Cores.textoFraco),
-              ),
+          ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 21),
+            child: Text(
+              _legenda(canal, resultado, escolheCanal),
+              textAlign: TextAlign.center,
+              style: corpo(14, cor: Cores.textoFraco),
             ),
           ),
           const Spacer(),
@@ -199,9 +197,7 @@ class _Televisao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final semSinal = canal == null;
-    return Padding(
-      padding: const EdgeInsets.only(right: 6, bottom: 6),
-      child: DecoratedBox(
+    return DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           boxShadow: const [
@@ -214,7 +210,7 @@ class _Televisao extends StatelessWidget {
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 80),
-                height: 264,
+                height: 296,
                 width: double.infinity,
                 color: semSinal ? Cores.superficie : canal!.cor,
                 alignment: Alignment.center,
@@ -226,13 +222,13 @@ class _Televisao extends StatelessWidget {
                       semSinal
                           ? '--'
                           : canal!.numero.toString().padLeft(2, '0'),
-                      style: titulo(74, cor: Cores.sobreClaro, altura: 0.9),
+                      style: titulo(82, cor: Cores.sobreClaro, altura: 0.9),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       semSinal ? 'SEM SINAL' : canal!.nome.toUpperCase(),
                       textAlign: TextAlign.center,
-                      style: titulo(18, cor: Cores.sobreClaro, altura: 1.15),
+                      style: titulo(19, cor: Cores.sobreClaro, altura: 1.15),
                     ),
                   ],
                 ),
@@ -276,7 +272,6 @@ class _Televisao extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }

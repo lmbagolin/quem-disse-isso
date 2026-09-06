@@ -57,24 +57,25 @@ class PartidaTela extends StatelessWidget {
             }
           },
           child: Scaffold(
-            appBar: AppBar(
-              title: Text(_tituloDaFase(motor)),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.leaderboard_outlined),
-                  tooltip: 'Placar',
-                  onPressed: () => _mostrarPlacar(context, motor),
-                ),
-              ],
-            ),
             body: SafeArea(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 220),
-                child: KeyedSubtree(
-                  key: ValueKey('${motor.fase}-${motor.indiceVez}-'
-                      '${motor.perguntaAtual?.idGlobal}'),
-                  child: _corpo(context, motor),
-                ),
+              child: Column(
+                children: [
+                  BarraDaRodada(
+                    rotulo: _tituloDaFase(motor),
+                    aoVoltar: () => Navigator.of(context).maybePop(),
+                    aoAbrirPlacar: () => _mostrarPlacar(context, motor),
+                  ),
+                  Expanded(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 220),
+                      child: KeyedSubtree(
+                        key: ValueKey('${motor.fase}-${motor.indiceVez}-'
+                            '${motor.perguntaAtual?.idGlobal}'),
+                        child: _corpo(context, motor),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -188,3 +189,76 @@ Color corDoModificador(EfeitoModificador efeito) => switch (efeito) {
       EfeitoModificador.rouboLiberado => Cores.magenta,
       EfeitoModificador.coringa => Cores.ciano,
     };
+
+
+/// Cabeçalho das telas de partida: voltar, o número da rodada em amarelo e as
+/// barras de sinal, que abrem o placar sem virar um ícone estranho à marca.
+class BarraDaRodada extends StatelessWidget {
+  const BarraDaRodada({
+    super.key,
+    required this.rotulo,
+    required this.aoVoltar,
+    required this.aoAbrirPlacar,
+  });
+
+  final String rotulo;
+  final VoidCallback aoVoltar;
+  final VoidCallback aoAbrirPlacar;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: aoVoltar,
+            behavior: HitTestBehavior.opaque,
+            child: const SizedBox(
+              width: 32,
+              height: 32,
+              child: Icon(Icons.arrow_back, size: 19, color: Cores.textoFraco),
+            ),
+          ),
+          Text(
+            rotulo.toUpperCase(),
+            style: corpo(12, cor: Cores.destaque, peso: 700, espacamento: 2.2),
+          ),
+          GestureDetector(
+            onTap: aoAbrirPlacar,
+            behavior: HitTestBehavior.opaque,
+            child: const SizedBox(
+              width: 32,
+              height: 32,
+              child: Center(child: BarrasDeSinal()),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BarrasDeSinal extends StatelessWidget {
+  const BarrasDeSinal({super.key, this.cor = Cores.textoFraco});
+
+  final Color cor;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 15,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          for (final altura in const [8.0, 15.0, 11.0]) ...[
+            Container(width: 4, height: altura, color: cor),
+            if (altura != 11.0) const SizedBox(width: 3),
+          ],
+        ],
+      ),
+    );
+  }
+}
