@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/tema.dart';
 import '../../../dominio/modelos/roleta.dart';
 import '../../../dominio/motor/motor_partida.dart';
+import '../../canal.dart';
 import '../../estado_app.dart';
 import '../../widgets/botao_grande.dart';
 import '../../widgets/roleta_widget.dart';
@@ -98,19 +99,20 @@ class _FaseRoletasState extends State<FaseRoletas>
   @override
   Widget build(BuildContext context) {
     final motor = widget.controlador.motor;
-    final gerenciador = EscopoApp.de(context).gerenciador;
     final temas = _temas;
     final resultado = _resultado;
     final coringa = resultado?.modificador.efeito == EfeitoModificador.coringa;
     // Com um pacote só não há o que escolher: o coringa não muda o tema.
     final escolheTema = coringa && temas.length > 1;
 
+    // A cor do setor é a do canal, não a da posição na roleta: o jogador
+    // reconhece o pacote pela mesma cor que viu no setup.
     final setoresTema = [
-      for (var i = 0; i < temas.length; i++)
-        SetorRoleta(
-          rotulo: gerenciador.porId(temas[i])?.nome ?? temas[i],
-          cor: coresDeTema[i % coresDeTema.length],
-        ),
+      for (final id in temas)
+        () {
+          final canal = Canal.de(context, id);
+          return SetorRoleta(rotulo: canal.nome, cor: canal.cor);
+        }(),
     ];
     final setoresModificador = [
       for (final efeito in motor.config.roleta.setores)
@@ -132,7 +134,7 @@ class _FaseRoletasState extends State<FaseRoletas>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _LinhaDeRoleta(
-                      titulo: 'Tema',
+                      rotulo: 'Tema',
                       lado: lado,
                       setores: setoresTema.isEmpty
                           ? const [
@@ -162,7 +164,7 @@ class _FaseRoletasState extends State<FaseRoletas>
                               : 'De onde vem a frase desta rodada.',
                     ),
                     _LinhaDeRoleta(
-                      titulo: 'Modificador',
+                      rotulo: 'Modificador',
                       lado: lado,
                       setores: setoresModificador,
                       angulo: _anguloModificador,
@@ -205,7 +207,7 @@ class _FaseRoletasState extends State<FaseRoletas>
 
 class _LinhaDeRoleta extends StatelessWidget {
   const _LinhaDeRoleta({
-    required this.titulo,
+    required this.rotulo,
     required this.lado,
     required this.setores,
     required this.angulo,
@@ -214,7 +216,7 @@ class _LinhaDeRoleta extends StatelessWidget {
     required this.detalhe,
   });
 
-  final String titulo;
+  final String rotulo;
   final double lado;
   final List<SetorRoleta> setores;
   final Animation<double> angulo;
@@ -242,32 +244,20 @@ class _LinhaDeRoleta extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                titulo.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 11,
-                  letterSpacing: 1.4,
-                  fontWeight: FontWeight.w800,
-                  color: Cores.textoFraco,
-                ),
+                rotulo.toUpperCase(),
+                style: etiqueta(cor: Cores.textoFraco),
               ),
               const SizedBox(height: 6),
               Text(
                 resultado ?? '—',
-                style: TextStyle(
-                  fontSize: 20,
-                  height: 1.15,
-                  fontWeight: FontWeight.w900,
-                  color: resultado == null ? Cores.textoFraco : Cores.destaque,
-                ),
+                style: titulo(20,
+                    cor: resultado == null ? Cores.textoFraco : Cores.destaque,
+                    altura: 1.15),
               ),
               const SizedBox(height: 6),
               Text(
                 detalhe,
-                style: const TextStyle(
-                  fontSize: 12,
-                  height: 1.3,
-                  color: Cores.textoFraco,
-                ),
+                style: corpo(12, cor: Cores.textoFraco, altura: 1.3),
               ),
             ],
           ),

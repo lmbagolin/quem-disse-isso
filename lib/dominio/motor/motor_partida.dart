@@ -67,6 +67,9 @@ class MotorPartida {
 
   Jogador get jogadorDaVez => jogadores[indiceVez];
 
+  /// Quem recebe o celular ao fim desta rodada.
+  Jogador get proximoJogador => jogadores[(indiceVez + 1) % jogadores.length];
+
   bool get temPerguntas => !_sorteador.vazio;
 
   int get perguntasRestantes => _sorteador.restantes;

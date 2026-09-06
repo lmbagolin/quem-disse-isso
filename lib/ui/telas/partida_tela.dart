@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/tema.dart';
 import '../../dominio/modelos/config_partida.dart';
+import '../widgets/balao.dart';
 import '../../dominio/modelos/roleta.dart';
 import '../../dominio/motor/motor_partida.dart';
 import '../estado_app.dart';
@@ -31,8 +32,8 @@ class PartidaTela extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Abandonar',
-                style: TextStyle(color: Cores.erro)),
+            child: Text('Abandonar',
+                style: corpo(14, cor: Cores.magenta)),
           ),
         ],
       ),
@@ -108,9 +109,10 @@ class PartidaTela extends StatelessWidget {
   void _mostrarPlacar(BuildContext context, MotorPartida motor) {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Cores.superficie,
+      backgroundColor: Cores.superficieAlta,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius:
+            BorderRadius.vertical(top: Radius.circular(Medidas.raioFolha)),
       ),
       builder: (_) => SafeArea(
         child: Padding(
@@ -119,28 +121,19 @@ class PartidaTela extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Placar',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-              ),
+              Text('PLACAR', style: titulo(22)),
               const SizedBox(height: 12),
               for (final jogador in motor.ranking)
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text(jogador.nome),
-                  trailing: Text(
-                    '${jogador.pontos}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Cores.destaque,
-                    ),
-                  ),
+                  title: Text(jogador.nome.toUpperCase(), style: titulo(15)),
+                  trailing:
+                      Text('${jogador.pontos}', style: titulo(20, cor: Cores.destaque)),
                 ),
               const SizedBox(height: 8),
               Text(
-                'Perguntas restantes nos pacotes: ${motor.temPerguntas ? "sim" : "acabaram"}',
-                style: const TextStyle(color: Cores.textoFraco, fontSize: 13),
+                '${motor.perguntasRestantes} frases ainda no sorteio',
+                style: corpo(13, cor: Cores.textoFraco),
               ),
             ],
           ),
@@ -159,36 +152,37 @@ class FaixaDaVez extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final efeito = motor.modificador?.efeito;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        Text(
-          'Vez de',
-          style: const TextStyle(color: Cores.textoFraco, fontSize: 14),
-        ),
-        Text(
-          motor.jogadorDaVez.nome,
-          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
-        ),
-        if (efeito != null && efeito != EfeitoModificador.normal)
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Cores.roxo.withValues(alpha: 0.25),
-              borderRadius: BorderRadius.circular(999),
-            ),
-            child: Text(
-              efeito.titulo.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.2,
-                color: Cores.roxo,
-              ),
-            ),
+        Container(
+          width: 24,
+          height: 24,
+          decoration: const BoxDecoration(
+            color: Cores.destaque,
+            shape: BoxShape.circle,
           ),
+        ),
+        const SizedBox(width: 9),
+        Flexible(
+          child: Text(
+            motor.jogadorDaVez.nome.toUpperCase(),
+            style: titulo(20),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        if (efeito != null && efeito != EfeitoModificador.normal) ...[
+          const SizedBox(width: 9),
+          Selo(efeito.rotuloCurto, cor: corDoModificador(efeito)),
+        ],
       ],
     );
   }
 }
+
+/// A cor diz o que a rodada é antes de o jogador ler o rótulo.
+Color corDoModificador(EfeitoModificador efeito) => switch (efeito) {
+      EfeitoModificador.normal => Cores.superficie,
+      EfeitoModificador.pontosEmDobro => Cores.destaque,
+      EfeitoModificador.rouboLiberado => Cores.magenta,
+      EfeitoModificador.coringa => Cores.ciano,
+    };

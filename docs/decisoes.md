@@ -93,6 +93,34 @@ vez, e errar tem consequência.
 `CartaEspecial.nenhuma`. As três seguem implementadas e testadas; ligar é passar
 um conjunto em `ConfigPartida.cartasAtivas`.
 
+### Identidade visual: a TV é o balão de fala
+
+A identidade veio pronta do Claude Design (projeto "Quem Disse Isso design",
+arquivo `Sistema Visual Tubo.dc.html`) e foi aplicada como está. Duas ideias
+sustentam tudo:
+
+**A tela de TV é o balão de fala.** Todo conteúdo do jogo aparece dentro de um
+retângulo com rabicho embaixo à esquerda. É o que faz o app ser reconhecível
+numa miniatura de 48px.
+
+**Cada pacote é um canal**, com número e cor próprios. Um pacote novo não
+precisa de ilustração — só entra na fila de cores (`Cores.canais`). A mesma cor
+aparece no bloco do setup, no setor da roleta de tema e no rótulo do balão, e
+isso é o que permite o jogador reconhecer o pacote sem ler.
+
+**A paleta tem papéis, não é uma lista de cores.** Amarelo é a ação principal e
+só aparece uma vez por tela; ciano é o conteúdo do jogo; magenta é urgência,
+erro e a sombra sólida; verde é acerto e mais nada. Trocar uma cor de papel
+desmonta a leitura das telas — por isso `Cores` documenta cada uma.
+
+**Texto sobre amarelo, magenta e ciano é sempre azul-tubo.** Branco nessas três
+não passa em contraste. Foi o primeiro bug que apareceu na aplicação: o estilo
+de título trazia cor branca por padrão e vencia o `foregroundColor` do botão.
+
+**Tipografia embarcada, não baixada.** Archivo Black e Space Grotesk vão como
+arquivo no APK (223 KB somados, com as licenças OFL). O app é offline: fonte de
+CDN não é opção.
+
 ### Modo com alternativas
 
 **A especificação dizia:** "modo múltipla escolha (o app corrige sozinho)" está
@@ -121,6 +149,21 @@ ninguém consegue dizer em voz alta qual opção escolheu.
 **Ponto de calibragem em aberto:** acertar com alternativa é bem mais fácil que
 acertar sem, e hoje vale o mesmo. Se o modo virar o padrão da mesa, vale
 considerar valer menos.
+
+### Aviso sonoro no fim do tempo
+
+O cronômetro passou a tocar um som e vibrar quando esgota. Numa mesa barulhenta
+a barra na tela não chega a quem não está olhando o celular.
+
+O som é sintetizado (duas notas descendentes, 0,5s) e mora em
+`assets/som/tempo-esgotado.wav`. Ser gerado em vez de baixado evita qualquer
+questão de licença.
+
+**Falhar no áudio nunca derruba a rodada:** `AvisoDeTempo.tocar` engole a
+exceção. Um aparelho no silencioso, sem permissão ou com o plugin indisponível
+segue jogando normalmente — o aviso visual continua lá.
+
+Isso não muda a regra: esgotar o tempo continua não revelando nada.
 
 ### Todos os pacotes gratuitos — por enquanto
 

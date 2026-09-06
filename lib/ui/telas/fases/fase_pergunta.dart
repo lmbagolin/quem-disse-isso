@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../core/tema.dart';
 import '../../../dominio/motor/motor_partida.dart';
+import '../../canal.dart';
 import '../../estado_app.dart';
+import '../../widgets/alternativa.dart';
+import '../../widgets/balao.dart';
 import '../../widgets/botao_grande.dart';
 import '../../widgets/cronometro.dart';
 import '../partida_tela.dart';
@@ -17,95 +20,63 @@ class FasePergunta extends StatelessWidget {
     final motor = controlador.motor;
     final pergunta = motor.perguntaAtual!;
     final revelando = motor.fase != FaseRodada.pergunta;
+    final canal = Canal.de(context, pergunta.idPacote);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+      padding: const EdgeInsets.fromLTRB(20, 2, 20, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: FaixaDaVez(motor: motor)),
-              if (!revelando)
-                Cronometro(
-                  // A chave reinicia a contagem a cada frase nova.
-                  key: ValueKey('${pergunta.idGlobal}-${motor.dicaRevelada}'),
-                  segundos: motor.config.segundosParaResponder,
-                ),
-            ],
+          if (!revelando)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Cronometro(
+                // A chave reinicia a contagem a cada frase nova.
+                key: ValueKey('${pergunta.idGlobal}-${motor.dicaRevelada}'),
+                segundos: motor.config.segundosParaResponder,
+              ),
+            ),
+          FaixaDaVez(motor: motor),
+          const SizedBox(height: 14),
+          if (revelando) ...[
+            Text('Era ele o tempo todo', style: corpo(13, cor: Cores.textoFraco)),
+            const SizedBox(height: 4),
+            Text(
+              pergunta.resposta.toUpperCase(),
+              style: titulo(26, cor: canal.cor, altura: 1.1),
+            ),
+            const SizedBox(height: 14),
+          ],
+          BalaoDeFala(
+            texto: pergunta.frase,
+            canal: canal.rotulo,
+            tamanho: motor.alternativas.isEmpty ? 21 : 19,
           ),
-          const SizedBox(height: 20),
+          if (motor.dicaRevelada && pergunta.dica != null) ...[
+            const SizedBox(height: 12),
+            Selo('Dica: ${pergunta.dica}', cor: Cores.superficie,
+                corDoTexto: Cores.texto),
+          ],
+          const SizedBox(height: 16),
           Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      pergunta.nomePacote.toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        letterSpacing: 1.4,
-                        fontWeight: FontWeight.w800,
-                        color: Cores.textoFraco,
-                      ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var i = 0; i < motor.alternativas.length; i++)
+                    Alternativa(
+                      letra: String.fromCharCode(65 + i),
+                      texto: motor.alternativas[i],
+                      certa: revelando &&
+                          motor.alternativas[i] == pergunta.resposta,
+                      descartada: revelando &&
+                          motor.alternativas[i] != pergunta.resposta,
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      '“${pergunta.frase}”',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: motor.alternativas.isEmpty ? 28 : 22,
-                        height: 1.3,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    if (motor.alternativas.isNotEmpty) ...[
-                      const SizedBox(height: 24),
-                      for (var i = 0; i < motor.alternativas.length; i++)
-                        _Alternativa(
-                          letra: String.fromCharCode(65 + i),
-                          texto: motor.alternativas[i],
-                          certa: revelando &&
-                              motor.alternativas[i] == pergunta.resposta,
-                          apagada: revelando &&
-                              motor.alternativas[i] != pergunta.resposta,
-                        ),
-                    ],
-                    if (motor.dicaRevelada && pergunta.dica != null) ...[
-                      const SizedBox(height: 20),
-                      _Etiqueta('Dica: ${pergunta.dica}', cor: Cores.roxo),
-                    ],
-                    if (revelando && motor.alternativas.isEmpty) ...[
-                      const SizedBox(height: 28),
-                      const Divider(color: Cores.superficieAlta),
-                      const SizedBox(height: 20),
-                      const Text(
-                        'A RESPOSTA É',
-                        style: TextStyle(
-                          fontSize: 12,
-                          letterSpacing: 1.6,
-                          fontWeight: FontWeight.w800,
-                          color: Cores.textoFraco,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        pergunta.resposta,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          color: Cores.destaque,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           ..._acoes(motor),
         ],
       ),
@@ -118,7 +89,6 @@ class FasePergunta extends StatelessWidget {
         return [
           BotaoGrande(
             rotulo: 'Revelar resposta',
-            icone: Icons.visibility_outlined,
             aoTocar: () => controlador.executar((m) => m.revelarResposta()),
           ),
         ];
@@ -143,12 +113,12 @@ class FasePergunta extends StatelessWidget {
   /// Rodada de roubo: todos concorrem, então a mesa aponta quem chegou antes.
   List<Widget> _quemAcertou(MotorPartida motor) {
     return [
-      const Text(
-        'Quem acertou primeiro?',
+      Text(
+        'QUEM ACERTOU PRIMEIRO?',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, color: Cores.textoFraco),
+        style: etiqueta(cor: Cores.textoFraco),
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 10),
       Wrap(
         alignment: WrapAlignment.center,
         spacing: 8,
@@ -160,28 +130,31 @@ class FasePergunta extends StatelessWidget {
                   controlador.executar((m) => m.registrarAcertoDe(jogador)),
               style: FilledButton.styleFrom(
                 backgroundColor: Cores.acerto,
-                foregroundColor: Cores.fundo,
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+                foregroundColor: Cores.sobreVerde,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(Medidas.raioBotao),
                 ),
               ),
               child: Text(
-                jogador.nome,
-                style: const TextStyle(fontWeight: FontWeight.w800),
+                jogador.nome.toUpperCase(),
+                style: titulo(14, cor: Cores.sobreVerde),
               ),
             ),
           OutlinedButton(
             onPressed: () => controlador.executar((m) => m.ninguemAcertou()),
             style: OutlinedButton.styleFrom(
               foregroundColor: Cores.textoFraco,
-              side: const BorderSide(color: Cores.superficieAlta, width: 2),
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+              side: BorderSide(
+                color: Cores.texto.withValues(alpha: 0.35),
+                width: 2,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(Medidas.raioBotao),
               ),
             ),
-            child: const Text('Ninguém'),
+            child: Text('Ninguém', style: corpo(14, peso: 700)),
           ),
         ],
       ),
@@ -195,115 +168,12 @@ class FasePergunta extends StatelessWidget {
   }) {
     return [
       Text(
-        '$quem acertou?',
+        '${quem.toUpperCase()} ACERTOU?',
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 16, color: Cores.textoFraco),
+        style: etiqueta(cor: Cores.textoFraco),
       ),
-      const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: BotaoGrande(
-              rotulo: 'Errou',
-              cor: Cores.erro,
-              corTexto: Colors.white,
-              aoTocar: aoErrar,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: BotaoGrande(
-              rotulo: 'Acertou',
-              cor: Cores.acerto,
-              aoTocar: aoAcertar,
-            ),
-          ),
-        ],
-      ),
+      const SizedBox(height: 10),
+      BotoesDeJulgamento(aoErrar: aoErrar, aoAcertar: aoAcertar),
     ];
-  }
-}
-
-class _Alternativa extends StatelessWidget {
-  const _Alternativa({
-    required this.letra,
-    required this.texto,
-    required this.certa,
-    required this.apagada,
-  });
-
-  final String letra;
-  final String texto;
-  final bool certa;
-  final bool apagada;
-
-  @override
-  Widget build(BuildContext context) {
-    final cor = certa ? Cores.acerto : Cores.texto;
-    return AnimatedOpacity(
-      duration: const Duration(milliseconds: 200),
-      opacity: apagada ? 0.35 : 1,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: certa
-              ? Cores.acerto.withValues(alpha: 0.16)
-              : Cores.superficie,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: certa ? Cores.acerto : Colors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 24,
-              child: Text(
-                letra,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w900,
-                  color: certa ? Cores.acerto : Cores.textoFraco,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                texto,
-                style: TextStyle(
-                  fontSize: 16,
-                  height: 1.25,
-                  fontWeight: certa ? FontWeight.w800 : FontWeight.w500,
-                  color: cor,
-                ),
-              ),
-            ),
-            if (certa)
-              const Icon(Icons.check_circle, color: Cores.acerto, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Etiqueta extends StatelessWidget {
-  const _Etiqueta(this.texto, {required this.cor});
-
-  final String texto;
-  final Color cor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: cor.withValues(alpha: 0.18),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Text(texto, style: TextStyle(color: cor, fontSize: 15)),
-    );
   }
 }

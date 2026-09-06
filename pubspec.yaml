@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.3.3
   path_provider: ^2.1.5
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +23,13 @@ flutter:
   uses-material-design: true
   assets:
     - assets/pacotes/
+    - assets/som/
+
+  fonts:
+    - family: ArchivoBlack
+      fonts:
+        - asset: assets/fontes/ArchivoBlack-Regular.ttf
+    # Fonte variável: um arquivo cobre 300–700 via variações de peso.
+    - family: SpaceGrotesk
+      fonts:
+        - asset: assets/fontes/SpaceGrotesk.ttf

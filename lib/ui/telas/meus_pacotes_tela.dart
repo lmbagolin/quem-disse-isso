@@ -48,7 +48,7 @@ class MeusPacotesTela extends StatelessWidget {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        _Selo(pacote.faixaEtaria, cor: Cores.roxo),
+                        _Selo(pacote.faixaEtaria, cor: Cores.ciano),
                         const SizedBox(width: 8),
                         _Selo('${pacote.quantidadePerguntas} perguntas',
                             cor: Cores.textoFraco),

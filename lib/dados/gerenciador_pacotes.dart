@@ -13,7 +13,9 @@ class GerenciadorPacotes {
 
   List<Pacote> get instalados {
     final lista = _instalados.values.toList()
-      ..sort((a, b) => a.nome.compareTo(b.nome));
+      // Sem ignorar caixa, "Frases Históricas" vem antes de "Frases de
+      // Cinema" — a ordem alfabética que o jogador espera é esta.
+      ..sort((a, b) => a.nome.toLowerCase().compareTo(b.nome.toLowerCase()));
     return List.unmodifiable(lista);
   }
 
@@ -31,6 +33,10 @@ class GerenciadorPacotes {
   }
 
   Pacote? porId(String id) => _instalados[id];
+
+  /// Posição do pacote na lista instalada. É o número do canal na interface,
+  /// e o que dá a cada pacote uma cor estável durante toda a partida.
+  int indiceDe(String id) => instalados.indexWhere((p) => p.id == id);
 
   List<Pergunta> perguntasDe(Iterable<String> idsPacotes) => [
         for (final id in idsPacotes)

@@ -19,16 +19,13 @@ class FasePlacar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Como está o jogo',
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
-          ),
+          Text('COMO ESTÁ O JOGO', style: titulo(26)),
           const SizedBox(height: 6),
           Text(
             ganhos.isEmpty
                 ? 'Ninguém pontuou nesta rodada.'
                 : 'Ponto na conta de quem acertou.',
-            style: const TextStyle(color: Cores.textoFraco),
+            style: corpo(14, cor: Cores.textoFraco),
           ),
           const SizedBox(height: 20),
           Expanded(
@@ -42,19 +39,9 @@ class FasePlacar extends StatelessWidget {
                   child: ListTile(
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                    leading: Text(
-                      '${i + 1}º',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: Cores.textoFraco,
-                      ),
-                    ),
-                    title: Text(
-                      jogador.nome,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w700),
-                    ),
+                    leading: Text('${i + 1}º',
+                        style: titulo(15, cor: Cores.textoFraco)),
+                    title: Text(jogador.nome.toUpperCase(), style: titulo(17)),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -64,25 +51,14 @@ class FasePlacar extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Cores.acerto.withValues(alpha: 0.2),
+                              color: Cores.acerto,
                               borderRadius: BorderRadius.circular(999),
                             ),
-                            child: Text(
-                              '+$ganho',
-                              style: const TextStyle(
-                                color: Cores.acerto,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
+                            child: Text('+$ganho',
+                                style: titulo(13, cor: Cores.sobreVerde)),
                           ),
-                        Text(
-                          '${jogador.pontos}',
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900,
-                            color: Cores.destaque,
-                          ),
-                        ),
+                        Text('${jogador.pontos}',
+                            style: titulo(22, cor: Cores.destaque)),
                       ],
                     ),
                   ),
@@ -91,9 +67,14 @@ class FasePlacar extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
+          Text(
+            'Agora é a vez de ${motor.proximoJogador.nome}',
+            textAlign: TextAlign.center,
+            style: corpo(14, cor: Cores.textoFraco),
+          ),
+          const SizedBox(height: 10),
           BotaoGrande(
-            rotulo: 'Próximo jogador',
-            icone: Icons.arrow_forward_rounded,
+            rotulo: 'Passar o celular',
             aoTocar: () => controlador.executar((m) => m.proximaVez()),
           ),
         ],

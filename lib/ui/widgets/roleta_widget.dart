@@ -235,16 +235,3 @@ class _PinturaPonteiro extends CustomPainter {
   @override
   bool shouldRepaint(_PinturaPonteiro anterior) => false;
 }
-
-/// Paleta dos setores de tema: estável por posição, para o mesmo pacote manter
-/// a cor durante a partida inteira.
-const List<Color> coresDeTema = [
-  Color(0xFF8B6BFF),
-  Color(0xFF3DD68C),
-  Color(0xFFFF8FB1),
-  Color(0xFF4FC3F7),
-  Color(0xFFFFC24B),
-  Color(0xFFFF8A65),
-  Color(0xFFB388FF),
-  Color(0xFF80CBC4),
-];

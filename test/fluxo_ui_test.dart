@@ -47,12 +47,12 @@ Future<void> tocarEm(WidgetTester tester, String rotulo) async {
 
 Future<void> tocarEmComecar(WidgetTester tester) async {
   await tester.dragUntilVisible(
-    find.text('Começar'),
+    find.text('COMEÇAR'),
     find.byType(ListView),
     const Offset(0, -200),
   );
   await tester.pumpAndSettle();
-  await tester.tap(find.text('Começar'));
+  await tester.tap(find.text('COMEÇAR'));
   await tester.pumpAndSettle();
 }
 
@@ -69,17 +69,17 @@ void main() {
 
   testWidgets('home lista as ações e abre o setup', (tester) async {
     await abrirApp(tester);
-    expect(find.text('Jogar'), findsOneWidget);
+    expect(find.text('JOGAR'), findsOneWidget);
 
-    await tester.tap(find.text('Jogar'));
+    await tester.tap(find.text('JOGAR'));
     await tester.pumpAndSettle();
     expect(find.text('Nova partida'), findsOneWidget);
-    expect(find.text('Pacote de Teste'), findsOneWidget);
+    expect(find.text('PACOTE DE TESTE'), findsOneWidget);
   });
 
   testWidgets('setup barra partida sem nomes', (tester) async {
     await abrirApp(tester);
-    await tester.tap(find.text('Jogar'));
+    await tester.tap(find.text('JOGAR'));
     await tester.pumpAndSettle();
 
     await tocarEmComecar(tester);
@@ -88,90 +88,90 @@ void main() {
 
   testWidgets('uma rodada completa vai das roletas ao placar', (tester) async {
     await abrirApp(tester);
-    await tester.tap(find.text('Jogar'));
+    await tester.tap(find.text('JOGAR'));
     await tester.pumpAndSettle();
     await preencherJogadores(tester);
 
     await tocarEmComecar(tester);
-    expect(find.text('Jogador 1'), findsOneWidget);
+    expect(find.text('JOGADOR 1'), findsOneWidget);
 
-    await tester.tap(find.text('Girar as roletas'));
+    await tester.tap(find.text('GIRAR AS ROLETAS'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Ver a frase'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('PACOTE DE TESTE'), findsOneWidget);
-    await tester.tap(find.text('Revelar resposta'));
+    await tester.tap(find.text('VER A FRASE'));
     await tester.pumpAndSettle();
 
-    expect(find.text('A RESPOSTA É'), findsOneWidget);
+    expect(find.text('CANAL 01 · PACOTE DE TESTE'), findsOneWidget);
+    await tester.tap(find.text('REVELAR RESPOSTA'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Era ele o tempo todo'), findsOneWidget);
 
     // A roleta pode cair em Roubo, e aí a revelação pergunta quem acertou
     // em vez de julgar só o jogador da vez.
-    if (find.text('Acertou').evaluate().isNotEmpty) {
-      await tester.tap(find.text('Acertou'));
+    if (find.text('ACERTOU').evaluate().isNotEmpty) {
+      await tester.tap(find.text('ACERTOU'));
     } else {
-      expect(find.text('Quem acertou primeiro?'), findsOneWidget);
-      await tester.tap(find.text('Jogador 1').last);
+      expect(find.text('QUEM ACERTOU PRIMEIRO?'), findsOneWidget);
+      await tester.tap(find.text('JOGADOR 1').last);
     }
     await tester.pumpAndSettle();
 
-    expect(find.text('Como está o jogo'), findsOneWidget);
+    expect(find.text('COMO ESTÁ O JOGO'), findsOneWidget);
     expect(find.textContaining('+'), findsWidgets);
 
-    await tester.tap(find.text('Próximo jogador'));
+    await tester.tap(find.text('PASSAR O CELULAR'));
     await tester.pumpAndSettle();
-    expect(find.text('Jogador 2'), findsOneWidget);
+    expect(find.text('JOGADOR 2'), findsOneWidget);
   });
 
   testWidgets('com alternativas, a frase vem com 5 opções de A a E',
       (tester) async {
     await abrirApp(tester);
-    await tester.tap(find.text('Jogar'));
+    await tester.tap(find.text('JOGAR'));
     await tester.pumpAndSettle();
     await preencherJogadores(tester);
 
     await tocarEm(tester, 'Com alternativas');
     await tocarEmComecar(tester);
 
-    await tester.tap(find.text('Girar as roletas'));
+    await tester.tap(find.text('GIRAR AS ROLETAS'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Ver a frase'));
+    await tester.tap(find.text('VER A FRASE'));
     await tester.pumpAndSettle();
 
     for (final letra in ['A', 'B', 'C', 'D', 'E']) {
       expect(find.text(letra), findsOneWidget, reason: 'faltou a opção $letra');
     }
     // Antes de revelar, nenhuma opção está marcada como certa.
-    expect(find.byIcon(Icons.check_circle), findsNothing);
+    expect(find.byIcon(Icons.check_rounded), findsNothing);
 
-    await tester.tap(find.text('Revelar resposta'));
+    await tester.tap(find.text('REVELAR RESPOSTA'));
     await tester.pumpAndSettle();
 
     // Exatamente uma opção é apontada como a certa.
-    expect(find.byIcon(Icons.check_circle), findsOneWidget);
+    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
   });
 
   testWidgets('sem alternativas, a resposta aparece em destaque',
       (tester) async {
     await abrirApp(tester);
-    await tester.tap(find.text('Jogar'));
+    await tester.tap(find.text('JOGAR'));
     await tester.pumpAndSettle();
     await preencherJogadores(tester);
 
     await tocarEm(tester, 'Sem alternativas');
     await tocarEmComecar(tester);
 
-    await tester.tap(find.text('Girar as roletas'));
+    await tester.tap(find.text('GIRAR AS ROLETAS'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Ver a frase'));
+    await tester.tap(find.text('VER A FRASE'));
     await tester.pumpAndSettle();
 
     expect(find.text('A'), findsNothing);
-    await tester.tap(find.text('Revelar resposta'));
+    await tester.tap(find.text('REVELAR RESPOSTA'));
     await tester.pumpAndSettle();
 
-    expect(find.text('A RESPOSTA É'), findsOneWidget);
+    expect(find.text('Era ele o tempo todo'), findsOneWidget);
   });
 
   testWidgets('regras e meus pacotes abrem sem quebrar', (tester) async {
@@ -189,7 +189,7 @@ void main() {
     await tester.pageBack();
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Loja de pacotes'));
+    await tester.tap(find.text('Loja'));
     await tester.pumpAndSettle();
     expect(find.text('Nenhum pacote à venda ainda.'), findsOneWidget);
   });

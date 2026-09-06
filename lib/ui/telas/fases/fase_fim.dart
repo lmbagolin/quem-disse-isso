@@ -19,31 +19,35 @@ class FaseFim extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
-          const Icon(Icons.emoji_events_rounded,
-              size: 72, color: Cores.destaque),
-          const SizedBox(height: 12),
+          Text('FIM DE JOGO', style: etiqueta(cor: Cores.textoFraco)),
+          const SizedBox(height: 10),
+          Text('!!', style: titulo(30, cor: Cores.magenta)),
+          const SizedBox(height: 6),
           Text(
-            empate ? 'Empate!' : 'Vitória de ${vencedores.first.nome}',
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+            empate
+                ? 'EMPATE!'
+                : '${vencedores.first.nome.toUpperCase()} VENCEU',
+            style: titulo(44, altura: 0.98).copyWith(
+              shadows: const [
+                Shadow(color: Cores.magenta, offset: Medidas.deslocamentoSombra),
+              ],
+            ),
           ),
           if (empate) ...[
             const SizedBox(height: 6),
             Text(
               vencedores.map((j) => j.nome).join(' e '),
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Cores.textoFraco, fontSize: 16),
+              style: corpo(15, cor: Cores.textoFraco),
             ),
           ],
           if (!motor.temPerguntas) ...[
             const SizedBox(height: 10),
-            const Text(
-              'As perguntas dos pacotes ativos acabaram.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Cores.textoFraco, fontSize: 14),
+            Text(
+              'As frases dos canais no ar acabaram.',
+              style: corpo(14, cor: Cores.textoFraco),
             ),
           ],
           const SizedBox(height: 24),
@@ -55,23 +59,11 @@ class FaseFim extends StatelessWidget {
                 final jogador = motor.ranking[i];
                 return Card(
                   child: ListTile(
-                    leading: Text(
-                      '${i + 1}º',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: Cores.textoFraco,
-                      ),
-                    ),
-                    title: Text(jogador.nome),
-                    trailing: Text(
-                      '${jogador.pontos} pts',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: Cores.destaque,
-                      ),
-                    ),
+                    leading: Text('${i + 1}º',
+                        style: titulo(15, cor: Cores.textoFraco)),
+                    title: Text(jogador.nome.toUpperCase(), style: titulo(16)),
+                    trailing: Text('${jogador.pontos}',
+                        style: titulo(20, cor: Cores.destaque)),
                   ),
                 );
               },
@@ -80,7 +72,6 @@ class FaseFim extends StatelessWidget {
           const SizedBox(height: 12),
           BotaoGrande(
             rotulo: 'Revanche',
-            icone: Icons.replay_rounded,
             aoTocar: () {
               final estado = EscopoApp.de(context);
               Navigator.of(context).pushReplacement(
@@ -93,7 +84,7 @@ class FaseFim extends StatelessWidget {
             },
           ),
           const SizedBox(height: 10),
-          BotaoSecundario(
+          BotaoContorno(
             rotulo: 'Voltar ao início',
             aoTocar: () =>
                 Navigator.of(context).popUntil((rota) => rota.isFirst),

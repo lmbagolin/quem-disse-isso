@@ -27,10 +27,10 @@ class RegrasTela extends StatelessWidget {
                 5, 'A mesa decide se valeu. Acertou pontua; errou encerra.'),
             const SizedBox(height: 24),
             const _Titulo('As roletas'),
-            const Text(
+            Text(
               'A roleta de tema sorteia de qual pacote sai a frase. A de '
               'modificador diz o que muda na rodada:',
-              style: TextStyle(color: Cores.textoFraco, height: 1.5),
+              style: corpo(14, cor: Cores.textoFraco, altura: 1.5),
             ),
             const SizedBox(height: 14),
             for (final efeito in EfeitoModificador.values)
@@ -43,59 +43,56 @@ class RegrasTela extends StatelessWidget {
                       children: [
                         Text(
                           efeito.titulo,
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w700),
+                          style: titulo(15),
                         ),
                         const SizedBox(width: 8),
                         Text(
                           '${roleta.setores.where((e) => e == efeito).length} '
                           'de ${roleta.setores.length} setores',
-                          style: const TextStyle(
-                              color: Cores.textoFraco, fontSize: 12),
+                          style: corpo(12, cor: Cores.textoFraco),
                         ),
                       ],
                     ),
                     Text(
                       efeito.descricao,
-                      style: const TextStyle(
-                          color: Cores.textoFraco, fontSize: 13),
+                      style: corpo(13, cor: Cores.textoFraco),
                     ),
                   ],
                 ),
               ),
             const SizedBox(height: 24),
             const _Titulo('Alternativas'),
-            const Text(
+            Text(
               'A partida pode rodar com 5 alternativas de A a E abaixo da '
               'frase, montadas com respostas de outras perguntas do mesmo '
               'pacote. Elas ajudam a lembrar, mas não corrigem: quem decide se '
               'valeu continua sendo a mesa. Escolha no início da partida.',
-              style: TextStyle(color: Cores.textoFraco, height: 1.5),
+              style: corpo(14, cor: Cores.textoFraco, altura: 1.5),
             ),
             const SizedBox(height: 24),
             const _Titulo('O tempo'),
-            const Text(
+            Text(
               'Um cronômetro corre enquanto a frase está na tela e avisa '
               'quando o tempo acaba. Ele não revela nada: quem decide quando '
               'revelar a resposta é a mesa. Dá para mudar a duração, ou '
               'desligar, no início da partida.',
-              style: TextStyle(color: Cores.textoFraco, height: 1.5),
+              style: corpo(14, cor: Cores.textoFraco, altura: 1.5),
             ),
             const SizedBox(height: 24),
             const _Titulo('Errar e roubar'),
-            const Text(
+            Text(
               'Errar encerra a rodada: sem ponto, passa a vez. A única chance '
               'de disputar o ponto de outro jogador é a roleta cair em Roubo — '
               'aí todos respondem desde o começo e quem acertar primeiro leva.',
-              style: TextStyle(color: Cores.textoFraco, height: 1.5),
+              style: corpo(14, cor: Cores.textoFraco, altura: 1.5),
             ),
             const SizedBox(height: 24),
             const _Titulo('Vitória'),
-            const Text(
+            Text(
               'A partida acaba quando alguém chega à meta de pontos ou quando '
               'as rodadas combinadas terminam. Em caso de empate, todos os '
               'líderes dividem o título.',
-              style: TextStyle(color: Cores.textoFraco, height: 1.5),
+              style: corpo(14, cor: Cores.textoFraco, altura: 1.5),
             ),
             const SizedBox(height: 16),
             Text(
@@ -121,12 +118,7 @@ class _Titulo extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         texto.toUpperCase(),
-        style: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.4,
-          color: Cores.destaque,
-        ),
+        style: etiqueta(cor: Cores.destaque),
       ),
     );
   }
@@ -155,13 +147,12 @@ class _Passo extends StatelessWidget {
             ),
             child: Text(
               '$numero',
-              style: const TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w800),
+              style: titulo(12),
             ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(texto, style: const TextStyle(height: 1.4)),
+            child: Text(texto, style: corpo(14, altura: 1.4)),
           ),
         ],
       ),

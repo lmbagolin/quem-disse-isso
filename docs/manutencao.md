@@ -141,6 +141,8 @@ Tudo o que é ajuste de balanceamento está isolado, em um lugar só:
 | Pontos por dificuldade, fator do dobro, divisão da Ajuda, desconto da Dica | `RegrasPontuacao` em `dominio/modelos/config_partida.dart` |
 | Cartas no erro (nenhuma por padrão) | `CartaEspecial.nenhuma` em `dominio/modelos/carta_especial.dart` |
 | Tempo padrão de resposta | `ConfigPartida.segundosPadrao` |
+| Cores, tipografia e medidas | `Cores`, `Medidas`, `titulo`, `corpo` em `core/tema.dart` |
+| Cor e número de cada canal | `Cores.canais` e `GerenciadorPacotes.indiceDe` |
 | Mínimo e máximo de jogadores | `ConfigPartida.minJogadores` / `maxJogadores` |
 
 **A probabilidade é a proporção de setores da roleta.** Para o coringa sair
@@ -154,6 +156,19 @@ errar encerra a rodada. Ligá-las é passar um conjunto em
 `ConfigPartida.cartasAtivas`. Atenção: a carta Dica
 só é sorteada para perguntas que tenham o campo `dica` preenchido — sem isso ela
 é descartada em `_sortearCarta`, e o jogador não vê carta nenhuma.
+
+### Mexer na identidade visual
+
+Tudo está em `lib/core/tema.dart`: paleta com papéis, medidas e as funções de
+texto. As fontes ficam em `assets/fontes/` e são declaradas no `pubspec.yaml`.
+
+Duas armadilhas já pegas em produção:
+
+- **Cor no `TextStyle` vence o `foregroundColor` do botão.** Ao usar `titulo()`
+  dentro de um botão colorido, passe a cor: `titulo(17, cor: corTexto)`.
+- **A Space Grotesk não tem todos os glifos.** O caractere ✓ saía como quadrado
+  vazio; use `Icon(Icons.check_rounded)`. Vale para qualquer símbolo fora do
+  alfabeto latino.
 
 ### Mexer nas roletas
 
@@ -236,6 +251,12 @@ assinado com chave de debug.
   em comentário e string, sim.
 - **Comentário só para o que o código não diz**: o motivo de uma decisão não
   óbvia, uma armadilha, uma regra externa. Nada de descrever o que a linha faz.
-- **Sem dependência nova sem necessidade real.** São três hoje
-  (`shared_preferences`, `path_provider`, `cupertino_icons`). O app é offline;
-  cada pacote a mais é superfície para quebrar em build de release.
+- **Sem dependência nova sem necessidade real.** São quatro hoje
+  (`shared_preferences`, `path_provider`, `audioplayers`, `cupertino_icons`). O
+  app é offline; cada pacote a mais é superfície para quebrar em build de
+  release.
+- **A identidade visual vive em `core/tema.dart`.** Nenhuma tela declara cor ou
+  tamanho de fonte solto: use `Cores`, `Medidas`, `titulo()`, `corpo()` e
+  `etiqueta()`. Se precisar de um valor novo, ele entra no tema primeiro.
+- **Archivo Black é sempre caixa-alta** — títulos, nomes de jogador e botões.
+  Todo o resto é Space Grotesk.

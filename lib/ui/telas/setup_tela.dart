@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../core/tema.dart';
 import '../../dominio/modelos/config_partida.dart';
 import '../../dominio/modelos/dificuldade.dart';
+import '../canal.dart';
 import '../estado_app.dart';
+import '../widgets/balao.dart';
 import '../widgets/botao_grande.dart';
 import 'partida_tela.dart';
 
@@ -125,7 +127,7 @@ class _SetupTelaState extends State<SetupTela> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
           children: [
-            const _Secao('Jogadores'),
+            const _Secao('Quem está na mesa'),
             for (var i = 0; i < _nomes.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -159,27 +161,31 @@ class _SetupTelaState extends State<SetupTela> {
                 label: const Text('Adicionar jogador'),
               ),
             const SizedBox(height: 16),
-            const _Secao('Pacotes na partida'),
-            for (final pacote in pacotes)
-              Card(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: CheckboxListTile(
-                  value: _pacotes.contains(pacote.id),
-                  onChanged: (marcado) => setState(() {
-                    marcado == true
-                        ? _pacotes.add(pacote.id)
-                        : _pacotes.remove(pacote.id);
-                  }),
-                  title: Text(pacote.nome),
-                  subtitle: Text(
-                    '${pacote.quantidadePerguntas} perguntas · ${pacote.faixaEtaria}',
-                    style: const TextStyle(color: Cores.textoFraco),
+            const _Secao('Canais no ar'),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final pacote in pacotes)
+                  _BlocoDeCanal(
+                    canal: Canal.de(context, pacote.id),
+                    detalhe: '${pacote.quantidadePerguntas} frases · '
+                        '${pacote.faixaEtaria}',
+                    ligado: _pacotes.contains(pacote.id),
+                    aoTocar: () => setState(() {
+                      _pacotes.contains(pacote.id)
+                          ? _pacotes.remove(pacote.id)
+                          : _pacotes.add(pacote.id);
+                    }),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Toque para ligar ou desligar um canal · '
+              '$totalEscolhido frases no sorteio',
+              style: corpo(13, cor: Cores.textoFraco),
+            ),
             const SizedBox(height: 16),
             const _Secao('Como termina'),
             SegmentedButton<TipoVitoria>(
@@ -204,9 +210,9 @@ class _SetupTelaState extends State<SetupTela> {
               children: [
                 Text(
                   _tipoVitoria == TipoVitoria.pontos
-                      ? 'Vence com $_alvo pontos'
+                      ? 'Vence quem chegar a $_alvo pontos'
                       : '$_alvo rodadas',
-                  style: const TextStyle(fontSize: 16),
+                  style: corpo(14),
                 ),
                 Expanded(
                   child: Slider(
@@ -236,10 +242,10 @@ class _SetupTelaState extends State<SetupTela> {
                   ? 'A frase vem com 5 opções de A a E. Quem julga o acerto '
                       'continua sendo a mesa.'
                   : 'A frase aparece sozinha. Modo original, mais difícil.',
-              style: const TextStyle(color: Cores.textoFraco, fontSize: 13),
+              style: corpo(13, cor: Cores.textoFraco),
             ),
             const SizedBox(height: 20),
-            const _Secao('Níveis de dificuldade'),
+            const _Secao('Dificuldade'),
             Wrap(
               spacing: 8,
               children: [
@@ -256,17 +262,11 @@ class _SetupTelaState extends State<SetupTela> {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              _dificuldades.isEmpty
-                  ? 'Escolha pelo menos um nível.'
-                  : '$totalEscolhido perguntas entram no sorteio.',
-              style: TextStyle(
-                color: _dificuldades.isEmpty ? Cores.erro : Cores.textoFraco,
-                fontSize: 13,
-              ),
-            ),
+            if (_dificuldades.isEmpty)
+              Text('Escolha pelo menos um nível.',
+                  style: corpo(13, cor: Cores.magenta)),
             const SizedBox(height: 20),
-            const _Secao('Tempo para responder'),
+            const _Secao('Tempo'),
             Wrap(
               spacing: 8,
               children: [
@@ -289,10 +289,10 @@ class _SetupTelaState extends State<SetupTela> {
               ],
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'O aviso de tempo esgotado não revela a resposta — quem decide '
               'isso é a mesa.',
-              style: TextStyle(color: Cores.textoFraco, fontSize: 13),
+              style: corpo(13, cor: Cores.textoFraco),
             ),
             const SizedBox(height: 20),
             BotaoGrande(
@@ -308,21 +308,66 @@ class _SetupTelaState extends State<SetupTela> {
 }
 
 class _Secao extends StatelessWidget {
-  const _Secao(this.titulo);
+  const _Secao(this.rotulo);
 
-  final String titulo;
+  final String rotulo;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Text(
-        titulo.toUpperCase(),
-        style: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.4,
-          color: Cores.destaque,
+      child: Text(rotulo.toUpperCase(), style: etiqueta()),
+    );
+  }
+}
+
+
+/// Canal como bloco: número, cor e nome. Desligado ele perde a cor, o que
+/// deixa a leitura do que está no ar imediata.
+class _BlocoDeCanal extends StatelessWidget {
+  const _BlocoDeCanal({
+    required this.canal,
+    required this.detalhe,
+    required this.ligado,
+    required this.aoTocar,
+  });
+
+  final Canal canal;
+  final String detalhe;
+  final bool ligado;
+  final VoidCallback aoTocar;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: aoTocar,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        width: 156,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: ligado ? Cores.superficie : Cores.superficieAlta,
+          borderRadius: BorderRadius.circular(Medidas.raioBotao),
+          border: Border.all(
+            color: ligado ? canal.cor : Colors.transparent,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Opacity(
+              opacity: ligado ? 1 : 0.35,
+              child: SeloDeCanal(numero: canal.numero, cor: canal.cor, lado: 34),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              canal.nome.toUpperCase(),
+              style: titulo(13, cor: ligado ? Cores.texto : Cores.textoFraco),
+            ),
+            const SizedBox(height: 3),
+            Text(detalhe, style: corpo(12, cor: Cores.textoFraco)),
+          ],
         ),
       ),
     );

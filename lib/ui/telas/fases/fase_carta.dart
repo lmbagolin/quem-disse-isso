@@ -37,7 +37,7 @@ class _CartaSorteada extends StatelessWidget {
       children: [
         Text(
           '${motor.jogadorDaVez.nome} errou.',
-          style: const TextStyle(fontSize: 18, color: Cores.textoFraco),
+          style: corpo(15, cor: Cores.textoFraco),
         ),
         const Spacer(),
         Container(
@@ -46,7 +46,7 @@ class _CartaSorteada extends StatelessWidget {
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Cores.roxo, Cores.superficieAlta],
+              colors: [Cores.magenta, Cores.superficie],
             ),
             borderRadius: BorderRadius.circular(24),
           ),
@@ -56,17 +56,13 @@ class _CartaSorteada extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 'CARTA ${carta.titulo.toUpperCase()}',
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1,
-                ),
+                style: titulo(26),
               ),
               const SizedBox(height: 12),
               Text(
                 carta.descricao,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16, height: 1.4),
+                style: corpo(15, altura: 1.4),
               ),
             ],
           ),
@@ -106,13 +102,13 @@ class _EscolhaDeJogador extends StatelessWidget {
             fontSize: 13,
             letterSpacing: 1.4,
             fontWeight: FontWeight.w800,
-            color: Cores.roxo,
+            color: Cores.ciano,
           ),
         ),
         const SizedBox(height: 8),
         Text(
           '${motor.jogadorDaVez.nome}, quem vai te ajudar?',
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+          style: titulo(24),
         ),
         const SizedBox(height: 20),
         Expanded(
@@ -131,12 +127,11 @@ class _EscolhaDeJogador extends StatelessWidget {
                   ),
                   title: Text(
                     jogador.nome,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w700),
+                    style: titulo(16),
                   ),
                   trailing: Text(
                     '${jogador.pontos} pts',
-                    style: const TextStyle(color: Cores.textoFraco),
+                    style: corpo(13, cor: Cores.textoFraco),
                   ),
                   onTap: () =>
                       controlador.executar((m) => m.escolherAjudante(jogador)),

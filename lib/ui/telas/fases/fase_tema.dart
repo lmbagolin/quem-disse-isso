@@ -22,9 +22,9 @@ class FaseTema extends StatelessWidget {
         children: [
           FaixaDaVez(motor: motor),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'Coringa! Escolha o tema da sua pergunta.',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            style: titulo(22),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -39,14 +39,13 @@ class FaseTema extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     title: Text(
                       pacote?.nome ?? temas[i],
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w700),
+                      style: titulo(16),
                     ),
                     subtitle: pacote == null
                         ? null
                         : Text(
                             pacote.descricao,
-                            style: const TextStyle(color: Cores.textoFraco),
+                            style: corpo(13, cor: Cores.textoFraco),
                           ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () => controlador

@@ -23,25 +23,24 @@ class LojaTela extends StatelessWidget {
             }
             final itens = snapshot.data ?? const <ItemLoja>[];
             if (itens.isEmpty) {
-              return const Center(
+              return Center(
                 child: Padding(
-                  padding: EdgeInsets.all(32),
+                  padding: const EdgeInsets.all(32),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.storefront_outlined,
+                      const Icon(Icons.storefront_outlined,
                           size: 64, color: Cores.textoFraco),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         'Nenhum pacote à venda ainda.',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w700),
+                        style: titulo(18),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         'Novos temas aparecem aqui assim que a loja for ligada.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Cores.textoFraco),
+                        style: corpo(14, cor: Cores.textoFraco),
                       ),
                     ],
                   ),

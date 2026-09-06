@@ -24,73 +24,97 @@ class HomeTela extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 22),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: 20),
+              Row(children: [const _AoVivo(), const Spacer()]),
               const Spacer(flex: 2),
-              const Text(
+              Text('?!', style: titulo(30, cor: Cores.ciano)),
+              const SizedBox(height: 10),
+              Text(
                 'QUEM\nDISSE\nISSO?',
-                style: TextStyle(
-                  fontSize: 56,
-                  height: 0.95,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: -2,
-                  color: Cores.destaque,
+                style: titulo(44, altura: 0.98).copyWith(
+                  shadows: const [
+                    Shadow(
+                      color: Cores.magenta,
+                      offset: Medidas.deslocamentoSombra,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-              const Text(
+              const SizedBox(height: 18),
+              Text(
                 'Você conhece a frase. Só não lembra de quem.',
-                style: TextStyle(fontSize: 16, color: Cores.textoFraco),
+                style: corpo(15, cor: Cores.textoFraco),
               ),
               const Spacer(flex: 3),
               if (estado.falha != null)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.only(bottom: 14),
                   child: Text(
-                    'Não deu para carregar os pacotes: ${estado.falha}',
-                    style: const TextStyle(color: Cores.erro),
+                    'Não deu para carregar os canais: ${estado.falha}',
+                    style: corpo(13, cor: Cores.magenta),
                   ),
                 ),
               BotaoGrande(
                 rotulo: 'Jogar',
-                icone: Icons.play_arrow_rounded,
                 aoTocar: estado.gerenciador.instalados.isEmpty
                     ? null
                     : () => Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => const SetupTela()),
                         ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               BotaoSecundario(
                 rotulo: 'Meus pacotes',
-                icone: Icons.inventory_2_outlined,
                 aoTocar: () => Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const MeusPacotesTela()),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               BotaoSecundario(
-                rotulo: 'Loja de pacotes',
-                icone: Icons.storefront_outlined,
+                rotulo: 'Loja',
                 aoTocar: () => Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const LojaTela()),
                 ),
               ),
-              const SizedBox(height: 12),
-              BotaoSecundario(
+              const SizedBox(height: 10),
+              BotaoContorno(
                 rotulo: 'Como se joga',
-                icone: Icons.menu_book_outlined,
                 aoTocar: () => Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const RegrasTela()),
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 28),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AoVivo extends StatelessWidget {
+  const _AoVivo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: const BoxDecoration(
+            color: Cores.magenta,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 7),
+        Text('AO VIVO', style: etiqueta(cor: Cores.textoFraco)),
+      ],
     );
   }
 }
